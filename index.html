@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Protection — Listing Scorer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --bg-tertiary: #ebebeb;
+      --text: #1a1a1a;
+      --text-secondary: #666660;
+      --border: rgba(0,0,0,0.12);
+      --border-mid: rgba(0,0,0,0.2);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --navy: #1A1A2E;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1e;
+        --bg-secondary: #2c2c2e;
+        --bg-tertiary: #3a3a3c;
+        --text: #f5f5f0;
+        --text-secondary: #aeaead;
+        --border: rgba(255,255,255,0.1);
+        --border-mid: rgba(255,255,255,0.2);
+      }
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--navy); }
+    .brand-name { font-size: 13px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; }
+    .page-title { font-size: 22px; font-weight: 500; color: var(--text); margin-top: 6px; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
+    .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .stat-val { font-size: 26px; font-weight: 500; color: var(--text); }
+    .stat-val.red { color: #A32D2D; }
+    .stat-val.amber { color: #854F0B; }
+    .stat-val.green { color: #3B6D11; }
+    @media (prefers-color-scheme: dark) {
+      .stat-val.red { color: #F09595; }
+      .stat-val.amber { color: #FAC775; }
+      .stat-val.green { color: #97C459; }
+    }
+    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem; }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 1.25rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 14px; }
+    .form-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 8px 10px; font-size: 13px; color: var(--text);
+      background: var(--bg-secondary); border: 0.5px solid var(--border-mid);
+      border-radius: var(--radius); outline: none; font-family: inherit;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(26,26,46,0.12); }
+    .field textarea { height: 72px; resize: vertical; }
+    .section-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .checks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+    .check { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.5; }
+    .check input[type=checkbox] { margin-top: 2px; width: 15px; height: 15px; accent-color: var(--navy); flex-shrink: 0; }
+    .qty-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .qty-row label { font-size: 13px; color: var(--text); }
+    .qty-row input { width: 100px; padding: 7px 10px; font-size: 13px; background: var(--bg-secondary); border: 0.5px solid var(--border-mid); border-radius: var(--radius); color: var(--text); font-family: inherit; outline: none; }
+    .btn-row { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+    .btn { padding: 9px 20px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
+    .btn:hover { background: var(--bg-tertiary); }
+    .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .btn.primary:hover { opacity: 0.88; }
+    .result-box { background: var(--bg-secondary); border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem; display: none; border-left: 3px solid var(--navy); }
+    .result-box.show { display: block; }
+    .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .result-label { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
+    .badge { font-size: 12px; font-weight: 500; padding: 3px 12px; border-radius: 20px; }
+    .badge.counterfeit { background: #F7C1C1; color: #791F1F; }
+    .badge.verify { background: #FAC775; color: #633806; }
+    .badge.noaction { background: #C0DD97; color: #27500A; }
+    .badge.high { background: #F7C1C1; color: #791F1F; }
+    .badge.medium { background: #FAC775; color: #633806; }
+    .badge.low { background: #C0DD97; color: #27500A; }
+    .result-note { font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+    .platform-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .ptab { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
+    .ptab:hover { background: var(--bg-secondary); }
+    .ptab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .table-wrap { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .table-head { display: grid; grid-template-columns: 90px 130px minmax(0,1fr) 160px 140px 110px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+    .th { font-size: 11px; color: var(--text-secondary); padding: 10px 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table-row { display: grid; grid-template-columns: 90px 130px minmax(0,1fr) 160px 140px 110px; border-bottom: 0.5px solid var(--border); align-items: start; }
+    .table-row:last-child { border-bottom: none; }
+    .table-row:hover { background: var(--bg-secondary); }
+    .td { font-size: 12px; color: var(--text); padding: 10px 12px; word-break: break-word; line-height: 1.5; }
+    .td.muted { color: var(--text-secondary); }
+    .td a { color: #185FA5; font-size: 11px; word-break: break-all; }
+    .empty { font-size: 13px; color: var(--text-secondary); padding: 2.5rem; text-align: center; }
+    @media (max-width: 700px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid.two { grid-template-columns: 1fr; }
+      .table-head, .table-row { grid-template-columns: 1fr; }
+      .th:not(:first-child) { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div>
+      <div class="brand"><div class="brand-dot"></div><div class="brand-name">Brand Protection</div></div>
+      <div class="page-title">Listing Scorer</div>
+    </div>
+    <button class="btn" onclick="exportCSV()">Export CSV ↓</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Total reviewed</div><div class="stat-val" id="s-total">0</div></div>
+    <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
+    <div class="stat"><div class="stat-label">Needs verification</div><div class="stat-val amber" id="s-verify">0</div></div>
+    <div class="stat"><div class="stat-label">No action</div><div class="stat-val green" id="s-noaction">0</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">New listing</div>
+    <div class="form-grid">
+      <div class="field"><label>Date</label><input type="date" id="f-date"></div>
+      <div class="field"><label>Seller name</label><input type="text" id="f-seller" placeholder="e.g. Custom Vinyl Stickers"></div>
+      <div class="field"><label>Platform</label>
+        <select id="f-platform">
+          <option>Amazon</option><option>Alibaba</option><option>Poshmark</option>
+          <option>Depop</option><option>Redbubble</option><option>DHgate</option>
+          <option>eBay</option><option>Etsy</option><option>Facebook</option>
+          <option>Instagram</option><option>Mercari</option><option>SHEIN</option>
+          <option>TikTok</option><option>Walmart</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid two">
+      <div class="field"><label>Listing URL</label><input type="text" id="f-link" placeholder="https://..."></div>
+      <div class="field"><label>Product name / listing title</label><input type="text" id="f-product" placeholder="e.g. Supreme Box Logo Hoodie"></div>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Listed price (USD)</label><input type="number" id="f-price" placeholder="e.g. 5.99"></div>
+      <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
+      <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
+    </div>
+
+    <div class="section-label">Signals observed</div>
+    <div class="checks">
+      <label class="check"><input type="checkbox" id="c-quality"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
+      <label class="check"><input type="checkbox" id="c-price"> Price significantly below MSRP or known resale value</label>
+      <label class="check"><input type="checkbox" id="c-collab"> Claims unofficial collaboration not on verified collab list</label>
+      <label class="check"><input type="checkbox" id="c-fakeproduct"> Product type never made by Supreme (e.g. credit card skins, phone cases)</label>
+      <label class="check"><input type="checkbox" id="c-highqty"> Suspiciously high quantity for a Supreme product</label>
+      <label class="check"><input type="checkbox" id="c-parody"> Parody item — uses Supreme name but product differs</label>
+      <label class="check"><input type="checkbox" id="c-nameDrop"> Uses Supreme name in listing description only — no trademark on product</label>
+      <label class="check"><input type="checkbox" id="c-highRep"> High-quality replica — visually matches authentic product</label>
+    </div>
+
+    <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
+
+    <div class="btn-row">
+      <button class="btn primary" onclick="scoreListing()">Score listing</button>
+      <button class="btn" onclick="clearForm()">Clear</button>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-row">
+        <span class="result-label">Status</span>
+        <span class="badge" id="r-status"></span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Confidence</span>
+        <span class="badge" id="r-confidence"></span>
+      </div>
+      <div class="result-note" id="r-note"></div>
+      <div class="btn-row" style="margin-top:14px;">
+        <button class="btn primary" onclick="addToLog()">Add to log</button>
+        <button class="btn" onclick="document.getElementById('result-box').classList.remove('show')">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Filter by platform</div>
+  <div class="platform-tabs">
+    <button class="ptab active" onclick="filterPlatform('All', this)">All</button>
+    <button class="ptab" onclick="filterPlatform('Amazon', this)">Amazon</button>
+    <button class="ptab" onclick="filterPlatform('Alibaba', this)">Alibaba</button>
+    <button class="ptab" onclick="filterPlatform('Poshmark', this)">Poshmark</button>
+    <button class="ptab" onclick="filterPlatform('Depop', this)">Depop</button>
+    <button class="ptab" onclick="filterPlatform('Redbubble', this)">Redbubble</button>
+    <button class="ptab" onclick="filterPlatform('DHgate', this)">DHgate</button>
+    <button class="ptab" onclick="filterPlatform('eBay', this)">eBay</button>
+    <button class="ptab" onclick="filterPlatform('Etsy', this)">Etsy</button>
+    <button class="ptab" onclick="filterPlatform('Facebook', this)">Facebook</button>
+    <button class="ptab" onclick="filterPlatform('Instagram', this)">Instagram</button>
+    <button class="ptab" onclick="filterPlatform('Mercari', this)">Mercari</button>
+    <button class="ptab" onclick="filterPlatform('SHEIN', this)">SHEIN</button>
+    <button class="ptab" onclick="filterPlatform('TikTok', this)">TikTok</button>
+    <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-head">
+      <div class="th">Date</div>
+      <div class="th">Seller</div>
+      <div class="th">Link / Product</div>
+      <div class="th">Notes</div>
+      <div class="th">Status</div>
+      <div class="th">Confidence</div>
+    </div>
+    <div id="log-body"><div class="empty">No listings scored yet.</div></div>
+  </div>
+</div>
+
+<script>
+  let log = [];
+  let currentResult = null;
+  let activeFilter = 'All';
+
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+  function scoreListing() {
+    const price = parseFloat(document.getElementById('f-price').value) || 0;
+    const msrp = parseFloat(document.getElementById('f-msrp').value) || 0;
+    const qty = parseInt(document.getElementById('f-qty').value) || 0;
+    const quality = document.getElementById('c-quality').checked;
+    const priceFlag = document.getElementById('c-price').checked;
+    const collab = document.getElementById('c-collab').checked;
+    const fakeProduct = document.getElementById('c-fakeproduct').checked;
+    const highQty = document.getElementById('c-highqty').checked;
+    const parody = document.getElementById('c-parody').checked;
+    const nameDrop = document.getElementById('c-nameDrop').checked;
+    const highRep = document.getElementById('c-highRep').checked;
+    const extraNotes = document.getElementById('f-notes').value.trim();
+    const product = document.getElementById('f-product').value.trim();
+
+    let score = 0;
+    let reasons = [];
+
+    if (fakeProduct) { score += 4; reasons.push('product type never manufactured by Supreme'); }
+    if (quality) { score += 3; reasons.push('visibly poor quality — logo, font, or colorway issues'); }
+    if (collab) { score += 3; reasons.push('claims unofficial collaboration not on verified collab list'); }
+    if (highRep) { score += 2; reasons.push('high-quality replica — visually matches authentic product'); }
+    if (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)) {
+      score += 2;
+      reasons.push('price significantly below MSRP' + (price > 0 && msrp > 0 ? ' ($' + price.toFixed(2) + ' listed vs $' + msrp.toFixed(2) + ' MSRP)' : ''));
+    }
+    if (highQty || qty > 50) {
+      score += 2;
+      reasons.push('quantity inconsistent with legitimate Supreme product' + (qty > 0 ? ' (' + qty + ' units listed)' : ''));
+    }
+    if (parody) { score += 1; reasons.push('parody item — Supreme trademark referenced but not present on product'); }
+    if (nameDrop) { score += 0.5; reasons.push('uses Supreme name in listing description only'); }
+
+    let status, confidence, noteText;
+
+    if (parody && !quality && !collab && !highRep && !fakeProduct) {
+      status = 'Needs Verification';
+      confidence = 'Medium';
+      noteText = 'Parody item flagged. Recommend second review to determine enforcement or no action.' + (reasons.filter(r => !r.includes('parody')).length ? ' Additional signals: ' + reasons.filter(r => !r.includes('parody')).join('; ') + '.' : '');
+    } else if (nameDrop && score < 1.5) {
+      status = 'No Action';
+      confidence = 'High';
+      noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
+    } else if (score >= 4) {
+      status = 'Sent to React';
+      confidence = score >= 6 ? 'High' : 'Medium';
+      noteText = 'Counterfeit confirmed. Signals: ' + reasons.join('; ') + '. Recommend immediate takedown via React.';
+    } else if (score >= 1.5) {
+      status = 'Needs Verification';
+      confidence = 'Medium';
+      noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires second review.';
+    } else {
+      status = 'No Action';
+      confidence = 'High';
+      noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
+    }
+
+    if (extraNotes) noteText += ' Additional context: ' + extraNotes;
+
+    currentResult = {
+      date: document.getElementById('f-date').value,
+      seller: document.getElementById('f-seller').value || '—',
+      platform: document.getElementById('f-platform').value,
+      link: document.getElementById('f-link').value || '—',
+      product: product || '—',
+      status, confidence, note: noteText
+    };
+
+    const sc = status === 'Sent to React' ? 'counterfeit' : status === 'Needs Verification' ? 'verify' : 'noaction';
+    const cc = confidence === 'High' ? 'high' : confidence === 'Medium' ? 'medium' : 'low';
+    document.getElementById('r-status').textContent = status;
+    document.getElementById('r-status').className = 'badge ' + sc;
+    document.getElementById('r-confidence').textContent = confidence;
+    document.getElementById('r-confidence').className = 'badge ' + cc;
+    document.getElementById('r-note').textContent = noteText;
+    document.getElementById('result-box').classList.add('show');
+  }
+
+  function addToLog() {
+    if (!currentResult) return;
+    log.push(currentResult);
+    updateStats();
+    renderLog();
+    clearForm();
+    document.getElementById('result-box').classList.remove('show');
+  }
+
+  function updateStats() {
+    document.getElementById('s-total').textContent = log.length;
+    document.getElementById('s-react').textContent = log.filter(l => l.status === 'Sent to React').length;
+    document.getElementById('s-verify').textContent = log.filter(l => l.status === 'Needs Verification').length;
+    document.getElementById('s-noaction').textContent = log.filter(l => l.status === 'No Action').length;
+  }
+
+  function renderLog() {
+    const filtered = activeFilter === 'All' ? log : log.filter(l => l.platform === activeFilter);
+    const body = document.getElementById('log-body');
+    if (!filtered.length) { body.innerHTML = '<div class="empty">No listings for this platform yet.</div>'; return; }
+    body.innerHTML = filtered.map(l => {
+      const sc = l.status === 'Sent to React' ? 'counterfeit' : l.status === 'Needs Verification' ? 'verify' : 'noaction';
+      const cc = l.confidence === 'High' ? 'high' : l.confidence === 'Medium' ? 'medium' : 'low';
+      const linkHtml = l.link !== '—' ? '<a href="' + l.link + '" target="_blank">' + l.platform + ' listing ↗</a>' : '—';
+      return '<div class="table-row">' +
+        '<div class="td muted">' + l.date + '</div>' +
+        '<div class="td">' + l.seller + '</div>' +
+        '<div class="td">' + linkHtml + (l.product !== '—' ? '<br><span style="font-size:11px;color:var(--text-secondary)">' + l.product + '</span>' : '') + '</div>' +
+        '<div class="td muted" style="font-size:11px;line-height:1.6">' + l.note + '</div>' +
+        '<div class="td"><span class="badge ' + sc + '">' + l.status + '</span></div>' +
+        '<div class="td"><span class="badge ' + cc + '">' + l.confidence + '</span></div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function filterPlatform(platform, el) {
+    activeFilter = platform;
+    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderLog();
+  }
+
+  function clearForm() {
+    ['f-seller','f-link','f-product','f-price','f-msrp','f-qty','f-notes'].forEach(id => document.getElementById(id).value = '');
+    ['c-quality','c-price','c-collab','c-fakeproduct','c-highqty','c-parody','c-nameDrop','c-highRep'].forEach(id => document.getElementById(id).checked = false);
+    document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+    currentResult = null;
+  }
+
+  function exportCSV() {
+    if (!log.length) { alert('No listings to export yet.'); return; }
+    const rows = [['Date','Seller','Platform','Link','Product','Status','Confidence','Notes']];
+    log.forEach(l => rows.push([l.date, l.seller, l.platform, l.link, l.product, l.status, l.confidence, '"' + l.note.replace(/"/g,'""') + '"']));
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = 'brand_protection_log.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>
