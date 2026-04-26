@@ -275,11 +275,11 @@
       noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
     } else if (score >= 4) {
       status = 'Sent to React';
-      confidence = autoHigh ? 'High' : 'Medium';
+      confidence = (fakeProduct || collab) ? 'High' : (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6))) ? 'High' : 'Medium';
       noteText = 'Counterfeit confirmed. Signals: ' + reasons.join('; ') + '. Recommend immediate takedown via React.';
     } else if (score >= 1.5) {
       status = 'Needs Verification';
-      confidence = autoHigh ? 'High' : 'Medium';
+      confidence = (fakeProduct || collab) ? 'High' : 'Medium';
       noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires second review.';
     } else {
       status = 'No Action';
