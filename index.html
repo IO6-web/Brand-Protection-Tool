@@ -260,8 +260,8 @@
 
     let status, confidence, noteText;
 
-    // Auto High Confidence triggers
-    const autoHigh = fakeProduct || collab || (quality && priceFlag) || (quality && price > 0 && msrp > 0 && price < msrp * 0.6);
+    // Auto High Confidence triggers — any one of these alone is definitive
+    const autoHigh = fakeProduct || collab || (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)));
     // Auto Low Confidence triggers
     const autoLow = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
 
