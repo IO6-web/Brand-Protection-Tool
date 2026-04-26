@@ -260,25 +260,30 @@
 
     let status, confidence, noteText;
 
+    // Auto High Confidence triggers
+    const autoHigh = fakeProduct || collab || (quality && priceFlag) || (quality && price > 0 && msrp > 0 && price < msrp * 0.6);
+    // Auto Low Confidence triggers
+    const autoLow = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
+
     if (parody && !quality && !collab && !highRep && !fakeProduct) {
       status = 'Needs Verification';
       confidence = 'Medium';
       noteText = 'Parody item flagged. Recommend second review to determine enforcement or no action.' + (reasons.filter(r => !r.includes('parody')).length ? ' Additional signals: ' + reasons.filter(r => !r.includes('parody')).join('; ') + '.' : '');
     } else if (nameDrop && score < 1.5) {
       status = 'No Action';
-      confidence = 'High';
+      confidence = 'Low';
       noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
     } else if (score >= 4) {
       status = 'Sent to React';
-      confidence = score >= 6 ? 'High' : 'Medium';
+      confidence = autoHigh ? 'High' : 'Medium';
       noteText = 'Counterfeit confirmed. Signals: ' + reasons.join('; ') + '. Recommend immediate takedown via React.';
     } else if (score >= 1.5) {
       status = 'Needs Verification';
-      confidence = 'Medium';
+      confidence = autoHigh ? 'High' : 'Medium';
       noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires second review.';
     } else {
       status = 'No Action';
-      confidence = 'High';
+      confidence = autoLow ? 'Low' : 'High';
       noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
     }
 
