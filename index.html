@@ -7,45 +7,38 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #ffffff;
-      --bg-secondary: #f5f5f3;
-      --bg-tertiary: #ebebeb;
-      --text: #1a1a1a;
-      --text-secondary: #666660;
-      --border: rgba(0,0,0,0.12);
-      --border-mid: rgba(0,0,0,0.2);
-      --radius: 8px;
-      --radius-lg: 12px;
-      --navy: #1A1A2E;
+      --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-tertiary: #ebebeb;
+      --text: #1a1a1a; --text-secondary: #666660;
+      --border: rgba(0,0,0,0.12); --border-mid: rgba(0,0,0,0.2);
+      --radius: 8px; --radius-lg: 12px; --navy: #1A1A2E;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1c1c1e;
-        --bg-secondary: #2c2c2e;
-        --bg-tertiary: #3a3a3c;
-        --text: #f5f5f0;
-        --text-secondary: #aeaead;
-        --border: rgba(255,255,255,0.1);
-        --border-mid: rgba(255,255,255,0.2);
+        --bg: #1c1c1e; --bg-secondary: #2c2c2e; --bg-tertiary: #3a3a3c;
+        --text: #f5f5f0; --text-secondary: #aeaead;
+        --border: rgba(255,255,255,0.1); --border-mid: rgba(255,255,255,0.2);
       }
     }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; }
-    .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
     .top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
     .brand { display: flex; align-items: center; gap: 10px; }
     .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--navy); }
     .brand-name { font-size: 13px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; }
     .page-title { font-size: 22px; font-weight: 500; color: var(--text); margin-top: 6px; }
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
+    .top-actions { display: flex; gap: 8px; align-items: center; }
+    .stats { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
     .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
     .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
     .stat-val { font-size: 26px; font-weight: 500; color: var(--text); }
     .stat-val.red { color: #A32D2D; }
     .stat-val.amber { color: #854F0B; }
+    .stat-val.blue { color: #1A4FA3; }
     .stat-val.green { color: #3B6D11; }
     @media (prefers-color-scheme: dark) {
       .stat-val.red { color: #F09595; }
       .stat-val.amber { color: #FAC775; }
+      .stat-val.blue { color: #7DB3F5; }
       .stat-val.green { color: #97C459; }
     }
     .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem; }
@@ -65,22 +58,23 @@
     .checks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
     .check { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.5; }
     .check input[type=checkbox] { margin-top: 2px; width: 15px; height: 15px; accent-color: var(--navy); flex-shrink: 0; }
-    .qty-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-    .qty-row label { font-size: 13px; color: var(--text); }
-    .qty-row input { width: 100px; padding: 7px 10px; font-size: 13px; background: var(--bg-secondary); border: 0.5px solid var(--border-mid); border-radius: var(--radius); color: var(--text); font-family: inherit; outline: none; }
     .btn-row { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
-    .btn { padding: 9px 20px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
+    .btn { padding: 9px 20px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: background 0.15s; }
     .btn:hover { background: var(--bg-tertiary); }
     .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
     .btn.primary:hover { opacity: 0.88; }
+    .btn.danger { background: #A32D2D; color: #fff; border-color: #A32D2D; }
+    .btn.danger:hover { opacity: 0.88; }
+    .btn.sm { padding: 5px 12px; font-size: 12px; }
     .result-box { background: var(--bg-secondary); border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem; display: none; border-left: 3px solid var(--navy); }
     .result-box.show { display: block; }
     .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .result-label { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
-    .badge { font-size: 12px; font-weight: 500; padding: 3px 12px; border-radius: 20px; }
-    .badge.counterfeit { background: #F7C1C1; color: #791F1F; }
-    .badge.verify { background: #FAC775; color: #633806; }
-    .badge.noaction { background: #C0DD97; color: #27500A; }
+    .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .badge.pending { background: #E8E8FF; color: #2D2D8E; }
+    .badge.complete { background: #C0DD97; color: #27500A; }
+    .badge.react { background: #F7C1C1; color: #791F1F; }
+    .badge.noaction { background: #E8E8E8; color: #555; }
     .badge.high { background: #F7C1C1; color: #791F1F; }
     .badge.medium { background: #FAC775; color: #633806; }
     .badge.low { background: #C0DD97; color: #27500A; }
@@ -89,16 +83,37 @@
     .ptab { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
     .ptab:hover { background: var(--bg-secondary); }
     .ptab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .bulk-bar { display: none; align-items: center; gap: 10px; padding: 10px 14px; background: var(--navy); border-radius: var(--radius); margin-bottom: 10px; flex-wrap: wrap; }
+    .bulk-bar.show { display: flex; }
+    .bulk-bar-text { font-size: 13px; color: #fff; flex: 1; }
     .table-wrap { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .table-head { display: grid; grid-template-columns: 90px 130px minmax(0,1fr) 160px 140px 110px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
-    .th { font-size: 11px; color: var(--text-secondary); padding: 10px 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-    .table-row { display: grid; grid-template-columns: 90px 130px minmax(0,1fr) 160px 140px 110px; border-bottom: 0.5px solid var(--border); align-items: start; }
+    .table-head { display: grid; grid-template-columns: 36px 90px 140px minmax(0,1fr) 190px 150px 110px 120px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+    .th { font-size: 11px; color: var(--text-secondary); padding: 10px 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table-row { display: grid; grid-template-columns: 36px 90px 140px minmax(0,1fr) 190px 150px 110px 120px; border-bottom: 0.5px solid var(--border); align-items: start; }
     .table-row:last-child { border-bottom: none; }
     .table-row:hover { background: var(--bg-secondary); }
-    .td { font-size: 12px; color: var(--text); padding: 10px 12px; word-break: break-word; line-height: 1.5; }
+    .table-row.selected { background: rgba(26,26,46,0.05); }
+    .td { font-size: 12px; color: var(--text); padding: 10px 10px; word-break: break-word; line-height: 1.5; }
     .td.muted { color: var(--text-secondary); }
     .td a { color: #185FA5; font-size: 11px; word-break: break-all; }
+    .td.center { display: flex; align-items: center; justify-content: center; padding-top: 12px; }
+    .row-cb { width: 15px; height: 15px; accent-color: var(--navy); cursor: pointer; }
+    .row-actions { display: flex; flex-direction: column; gap: 5px; padding-top: 6px; }
     .empty { font-size: 13px; color: var(--text-secondary); padding: 2.5rem; text-align: center; }
+    .settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; }
+    .settings-overlay.show { display: flex; align-items: center; justify-content: center; }
+    .settings-panel { background: var(--bg); border-radius: var(--radius-lg); padding: 1.5rem; width: 420px; max-width: 90vw; }
+    .settings-title { font-size: 16px; font-weight: 500; margin-bottom: 1.25rem; color: var(--text); }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 0.5px solid var(--border); gap: 16px; }
+    .setting-row:last-of-type { border-bottom: none; }
+    .setting-label { font-size: 13px; color: var(--text); font-weight: 500; }
+    .setting-desc { font-size: 11px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+    .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: var(--bg-tertiary); border-radius: 22px; cursor: pointer; transition: background 0.2s; }
+    .toggle input:checked + .toggle-slider { background: var(--navy); }
+    .toggle-slider:before { content: ''; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: transform 0.2s; }
+    .toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
     @media (max-width: 700px) {
       .stats { grid-template-columns: repeat(2, 1fr); }
       .form-grid { grid-template-columns: 1fr; }
@@ -115,14 +130,18 @@
       <div class="brand"><div class="brand-dot"></div><div class="brand-name">Brand Protection</div></div>
       <div class="page-title">Listing Scorer</div>
     </div>
-    <button class="btn" onclick="exportCSV()">Export CSV ↓</button>
+    <div class="top-actions">
+      <button class="btn" onclick="openSettings()">Settings</button>
+      <button class="btn" onclick="exportCSV()">Export CSV ↓</button>
+    </div>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="stat-label">Total reviewed</div><div class="stat-val" id="s-total">0</div></div>
+    <div class="stat"><div class="stat-label">Pending Review</div><div class="stat-val amber" id="s-pending">0</div></div>
+    <div class="stat"><div class="stat-label">Review Complete</div><div class="stat-val blue" id="s-complete">0</div></div>
     <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
-    <div class="stat"><div class="stat-label">Needs verification</div><div class="stat-val amber" id="s-verify">0</div></div>
-    <div class="stat"><div class="stat-label">No action</div><div class="stat-val green" id="s-noaction">0</div></div>
+    <div class="stat"><div class="stat-label">No Action</div><div class="stat-val green" id="s-noaction">0</div></div>
   </div>
 
   <div class="card">
@@ -149,7 +168,6 @@
       <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
       <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
     </div>
-
     <div class="section-label">Signals observed</div>
     <div class="checks">
       <label class="check"><input type="checkbox" id="c-quality"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
@@ -161,23 +179,14 @@
       <label class="check"><input type="checkbox" id="c-nameDrop"> Uses Supreme name in listing description only — no trademark on product</label>
       <label class="check"><input type="checkbox" id="c-highRep"> High-quality replica — visually matches authentic product</label>
     </div>
-
     <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
-
     <div class="btn-row">
       <button class="btn primary" onclick="scoreListing()">Score listing</button>
       <button class="btn" onclick="clearForm()">Clear</button>
     </div>
-
     <div class="result-box" id="result-box">
-      <div class="result-row">
-        <span class="result-label">Status</span>
-        <span class="badge" id="r-status"></span>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Confidence</span>
-        <span class="badge" id="r-confidence"></span>
-      </div>
+      <div class="result-row"><span class="result-label">Status</span><span class="badge" id="r-status"></span></div>
+      <div class="result-row"><span class="result-label">Confidence</span><span class="badge" id="r-confidence"></span></div>
       <div class="result-note" id="r-note"></div>
       <div class="btn-row" style="margin-top:14px;">
         <button class="btn primary" onclick="addToLog()">Add to log</button>
@@ -205,16 +214,45 @@
     <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
   </div>
 
+  <div class="bulk-bar" id="bulk-bar">
+    <span class="bulk-bar-text" id="bulk-bar-text">0 listings selected</span>
+    <button class="btn sm danger" onclick="bulkSendToReact()">Send to React</button>
+    <button class="btn sm" style="color:#fff;border-color:rgba(255,255,255,0.3);background:transparent;" onclick="clearSelection()">Clear selection</button>
+  </div>
+
   <div class="table-wrap">
     <div class="table-head">
+      <div class="th" style="display:flex;align-items:center;justify-content:center;">
+        <input type="checkbox" class="row-cb" id="select-all" onchange="toggleSelectAll(this)">
+      </div>
       <div class="th">Date</div>
       <div class="th">Seller</div>
       <div class="th">Link / Product</div>
       <div class="th">Notes</div>
       <div class="th">Status</div>
       <div class="th">Confidence</div>
+      <div class="th">Actions</div>
     </div>
     <div id="log-body"><div class="empty">No listings scored yet.</div></div>
+  </div>
+</div>
+
+<div class="settings-overlay" id="settings-overlay" onclick="closeSettingsOutside(event)">
+  <div class="settings-panel">
+    <div class="settings-title">Settings</div>
+    <div class="setting-row">
+      <div>
+        <div class="setting-label">Auto-send High confidence to React</div>
+        <div class="setting-desc">When enabled, listings scored with High confidence are automatically marked Sent to React without manual review.</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-autoreact" onchange="saveSettings()">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="btn-row" style="margin-top:1.25rem;">
+      <button class="btn primary" onclick="closeSettings()">Done</button>
+    </div>
   </div>
 </div>
 
@@ -222,6 +260,7 @@
   let log = [];
   let currentResult = null;
   let activeFilter = 'All';
+  let settings = { autoReact: false };
 
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 
@@ -258,69 +297,109 @@
     if (parody) { score += 1; reasons.push('parody item — Supreme trademark referenced but not present on product'); }
     if (nameDrop) { score += 0.5; reasons.push('uses Supreme name in listing description only'); }
 
-    let status, confidence, noteText;
+    const isDefinitive = fakeProduct || collab;
+    const isHighConf = isDefinitive || (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)));
+    const isLowConf = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
+    const confidence = isHighConf ? 'High' : isLowConf ? 'Low' : 'Medium';
 
-    // Auto High Confidence triggers — any one of these alone is definitive
-    const autoHigh = fakeProduct || collab || (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)));
-    // Auto Low Confidence triggers
-    const autoLow = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
+    let status, noteText;
 
     if (parody && !quality && !collab && !highRep && !fakeProduct) {
-      status = 'Needs Verification';
-      confidence = 'Medium';
+      status = 'Pending Review';
       noteText = 'Parody item flagged. Recommend second review to determine enforcement or no action.' + (reasons.filter(r => !r.includes('parody')).length ? ' Additional signals: ' + reasons.filter(r => !r.includes('parody')).join('; ') + '.' : '');
     } else if (nameDrop && score < 1.5) {
       status = 'No Action';
-      confidence = 'Low';
       noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
     } else if (score >= 4) {
-      status = 'Sent to React';
-      confidence = (fakeProduct || collab) ? 'High' : (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6))) ? 'High' : 'Medium';
-      noteText = 'Counterfeit confirmed. Signals: ' + reasons.join('; ') + '. Recommend immediate takedown via React.';
+      if (settings.autoReact && confidence === 'High') {
+        status = 'Sent to React';
+        noteText = 'Counterfeit confirmed (auto-sent via High confidence setting). Signals: ' + reasons.join('; ') + '.';
+      } else {
+        status = 'Pending Review';
+        noteText = 'Counterfeit indicators detected. Signals: ' + reasons.join('; ') + '. Review and send to React if confirmed.';
+      }
     } else if (score >= 1.5) {
-      status = 'Needs Verification';
-      confidence = (fakeProduct || collab) ? 'High' : 'Medium';
-      noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires second review.';
+      status = 'Pending Review';
+      noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires review.';
     } else {
       status = 'No Action';
-      confidence = autoLow ? 'Low' : 'High';
       noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
     }
 
     if (extraNotes) noteText += ' Additional context: ' + extraNotes;
 
     currentResult = {
+      id: Date.now(),
       date: document.getElementById('f-date').value,
       seller: document.getElementById('f-seller').value || '—',
       platform: document.getElementById('f-platform').value,
       link: document.getElementById('f-link').value || '—',
       product: product || '—',
-      status, confidence, note: noteText
+      status, confidence, note: noteText, selected: false
     };
 
-    const sc = status === 'Sent to React' ? 'counterfeit' : status === 'Needs Verification' ? 'verify' : 'noaction';
-    const cc = confidence === 'High' ? 'high' : confidence === 'Medium' ? 'medium' : 'low';
     document.getElementById('r-status').textContent = status;
-    document.getElementById('r-status').className = 'badge ' + sc;
+    document.getElementById('r-status').className = 'badge ' + statusClass(status);
     document.getElementById('r-confidence').textContent = confidence;
-    document.getElementById('r-confidence').className = 'badge ' + cc;
+    document.getElementById('r-confidence').className = 'badge ' + confidence.toLowerCase();
     document.getElementById('r-note').textContent = noteText;
     document.getElementById('result-box').classList.add('show');
+  }
+
+  function statusClass(s) {
+    if (s === 'Sent to React') return 'react';
+    if (s === 'Pending Review') return 'pending';
+    if (s === 'Review Complete') return 'complete';
+    return 'noaction';
   }
 
   function addToLog() {
     if (!currentResult) return;
     log.push(currentResult);
-    updateStats();
-    renderLog();
-    clearForm();
+    updateStats(); renderLog(); clearForm();
     document.getElementById('result-box').classList.remove('show');
+  }
+
+  function updateStatus(id, newStatus) {
+    const item = log.find(l => l.id === id);
+    if (item) { item.status = newStatus; updateStats(); renderLog(); }
+  }
+
+  function toggleSelect(id, checked) {
+    const item = log.find(l => l.id === id);
+    if (item) item.selected = checked;
+    updateBulkBar();
+  }
+
+  function toggleSelectAll(cb) {
+    const filtered = activeFilter === 'All' ? log : log.filter(l => l.platform === activeFilter);
+    filtered.forEach(l => l.selected = cb.checked);
+    updateBulkBar(); renderLog();
+  }
+
+  function updateBulkBar() {
+    const count = log.filter(l => l.selected).length;
+    document.getElementById('bulk-bar-text').textContent = count + ' listing' + (count !== 1 ? 's' : '') + ' selected';
+    document.getElementById('bulk-bar').classList.toggle('show', count > 0);
+  }
+
+  function bulkSendToReact() {
+    log.filter(l => l.selected).forEach(l => { l.status = 'Sent to React'; l.selected = false; });
+    document.getElementById('select-all').checked = false;
+    updateStats(); updateBulkBar(); renderLog();
+  }
+
+  function clearSelection() {
+    log.forEach(l => l.selected = false);
+    document.getElementById('select-all').checked = false;
+    updateBulkBar(); renderLog();
   }
 
   function updateStats() {
     document.getElementById('s-total').textContent = log.length;
+    document.getElementById('s-pending').textContent = log.filter(l => l.status === 'Pending Review').length;
+    document.getElementById('s-complete').textContent = log.filter(l => l.status === 'Review Complete').length;
     document.getElementById('s-react').textContent = log.filter(l => l.status === 'Sent to React').length;
-    document.getElementById('s-verify').textContent = log.filter(l => l.status === 'Needs Verification').length;
     document.getElementById('s-noaction').textContent = log.filter(l => l.status === 'No Action').length;
   }
 
@@ -329,16 +408,25 @@
     const body = document.getElementById('log-body');
     if (!filtered.length) { body.innerHTML = '<div class="empty">No listings for this platform yet.</div>'; return; }
     body.innerHTML = filtered.map(l => {
-      const sc = l.status === 'Sent to React' ? 'counterfeit' : l.status === 'Needs Verification' ? 'verify' : 'noaction';
-      const cc = l.confidence === 'High' ? 'high' : l.confidence === 'Medium' ? 'medium' : 'low';
-      const linkHtml = l.link !== '—' ? '<a href="' + l.link + '" target="_blank">' + l.platform + ' listing ↗</a>' : '—';
-      return '<div class="table-row">' +
+      const sc = statusClass(l.status);
+      const cc = l.confidence.toLowerCase();
+      const linkHtml = l.link !== '—' ? '<a href="' + l.link + '" target="_blank">' + l.platform + ' ↗</a>' : '—';
+      const isPending = l.status === 'Pending Review';
+      const isComplete = l.status === 'Review Complete';
+      const isReact = l.status === 'Sent to React';
+      return '<div class="table-row' + (l.selected ? ' selected' : '') + '">' +
+        '<div class="td center"><input type="checkbox" class="row-cb" ' + (l.selected ? 'checked' : '') + ' onchange="toggleSelect(' + l.id + ', this.checked)"></div>' +
         '<div class="td muted">' + l.date + '</div>' +
-        '<div class="td">' + l.seller + '</div>' +
+        '<div class="td">' + l.seller + '<br><span style="font-size:10px;color:var(--text-secondary)">' + l.platform + '</span></div>' +
         '<div class="td">' + linkHtml + (l.product !== '—' ? '<br><span style="font-size:11px;color:var(--text-secondary)">' + l.product + '</span>' : '') + '</div>' +
         '<div class="td muted" style="font-size:11px;line-height:1.6">' + l.note + '</div>' +
         '<div class="td"><span class="badge ' + sc + '">' + l.status + '</span></div>' +
         '<div class="td"><span class="badge ' + cc + '">' + l.confidence + '</span></div>' +
+        '<div class="td"><div class="row-actions">' +
+          (!isReact ? '<button class="btn sm danger" onclick="updateStatus(' + l.id + ', \'Sent to React\')">Send to React</button>' : '') +
+          (isPending ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Review Complete\')">Mark Complete</button>' : '') +
+          (isComplete ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Pending Review\')">Reopen</button>' : '') +
+        '</div></div>' +
       '</div>';
     }).join('');
   }
@@ -347,6 +435,7 @@
     activeFilter = platform;
     document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
+    document.getElementById('select-all').checked = false;
     renderLog();
   }
 
@@ -367,6 +456,11 @@
     a.download = 'brand_protection_log.csv';
     a.click();
   }
+
+  function openSettings() { document.getElementById('settings-overlay').classList.add('show'); }
+  function closeSettings() { document.getElementById('settings-overlay').classList.remove('show'); }
+  function closeSettingsOutside(e) { if (e.target === document.getElementById('settings-overlay')) closeSettings(); }
+  function saveSettings() { settings.autoReact = document.getElementById('toggle-autoreact').checked; }
 </script>
 </body>
 </html>
