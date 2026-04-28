@@ -11,6 +11,7 @@
       --text: #1a1a1a; --text-secondary: #666660;
       --border: rgba(0,0,0,0.12); --border-mid: rgba(0,0,0,0.2);
       --radius: 8px; --radius-lg: 12px; --navy: #1A1A2E;
+      --sidebar-w: 220px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -19,57 +20,102 @@
         --border: rgba(255,255,255,0.1); --border-mid: rgba(255,255,255,0.2);
       }
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; }
-    .page { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--navy); }
-    .brand-name { font-size: 13px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; }
-    .page-title { font-size: 22px; font-weight: 500; color: var(--text); margin-top: 6px; }
-    .top-actions { display: flex; gap: 8px; align-items: center; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* ── Sidebar ── */
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--bg); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.22s ease, opacity 0.22s ease; overflow: hidden; }
+    .sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+    .sidebar-inner { width: var(--sidebar-w); padding: 1.25rem 0; display: flex; flex-direction: column; height: 100%; }
+    .sidebar-brand { padding: 0 1rem 1rem; border-bottom: 0.5px solid var(--border); margin-bottom: 0.75rem; }
+    .sidebar-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--navy); display: inline-block; margin-right: 6px; }
+    .sidebar-brand-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; }
+    .sidebar-section { margin-bottom: 4px; }
+    .sidebar-section-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 8px 1rem; font-size: 13px; font-weight: 500; color: var(--text); background: none; border: none; cursor: pointer; font-family: inherit; }
+    .sidebar-section-btn:hover { background: var(--bg-secondary); }
+    .sidebar-chevron { font-size: 10px; color: var(--text-secondary); transition: transform 0.18s; }
+    .sidebar-chevron.open { transform: rotate(90deg); }
+    .sidebar-items { display: none; padding: 2px 0 6px; }
+    .sidebar-items.open { display: block; }
+    .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 1rem 7px 1.75rem; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
+    .sidebar-item:hover { background: var(--bg-secondary); color: var(--text); }
+    .sidebar-item-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-mid); flex-shrink: 0; }
+    .sidebar-empty { font-size: 11px; color: var(--text-secondary); padding: 4px 1rem 4px 1.75rem; font-style: italic; }
+    .sidebar-footer { margin-top: auto; padding: 1rem; border-top: 0.5px solid var(--border); }
+    .sidebar-footer-label { font-size: 11px; color: var(--text-secondary); }
+
+    /* ── Main ── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .topbar { display: flex; align-items: center; gap: 10px; padding: 12px 1.5rem; background: var(--bg); border-bottom: 0.5px solid var(--border); }
+    .collapse-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--border-mid); border-radius: var(--radius); background: var(--bg-secondary); cursor: pointer; font-size: 14px; color: var(--text-secondary); flex-shrink: 0; }
+    .collapse-btn:hover { background: var(--bg-tertiary); }
+    .topbar-title { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+    .topbar-actions { display: flex; gap: 8px; }
+
+    /* ── Tabs ── */
+    .tabs-bar { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); background: var(--bg); padding: 0 1.5rem; }
+    .tab { font-size: 13px; padding: 10px 16px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--navy); }
+    .tab.disabled { color: var(--text-secondary); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    /* ── Page content ── */
+    .page { padding: 1.5rem; flex: 1; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Stats ── */
     .stats { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
-    .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .stat-val { font-size: 26px; font-weight: 500; color: var(--text); }
-    .stat-val.red { color: #A32D2D; }
+    .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-val { font-size: 24px; font-weight: 500; }
     .stat-val.amber { color: #854F0B; }
     .stat-val.blue { color: #1A4FA3; }
+    .stat-val.red { color: #A32D2D; }
     .stat-val.green { color: #3B6D11; }
     @media (prefers-color-scheme: dark) {
-      .stat-val.red { color: #F09595; }
       .stat-val.amber { color: #FAC775; }
       .stat-val.blue { color: #7DB3F5; }
+      .stat-val.red { color: #F09595; }
       .stat-val.green { color: #97C459; }
     }
-    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem; }
-    .card-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 1.25rem; }
-    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 14px; }
+
+    /* ── Card / Form ── */
+    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+    .card-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
     .form-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
     .field label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
     .field input, .field select, .field textarea {
-      width: 100%; padding: 8px 10px; font-size: 13px; color: var(--text);
+      width: 100%; padding: 7px 10px; font-size: 13px; color: var(--text);
       background: var(--bg-secondary); border: 0.5px solid var(--border-mid);
       border-radius: var(--radius); outline: none; font-family: inherit;
     }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(26,26,46,0.12); }
-    .field textarea { height: 72px; resize: vertical; }
-    .section-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
-    .checks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
-    .check { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.5; }
-    .check input[type=checkbox] { margin-top: 2px; width: 15px; height: 15px; accent-color: var(--navy); flex-shrink: 0; }
-    .btn-row { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
-    .btn { padding: 9px 20px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: background 0.15s; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); }
+    .field textarea { height: 68px; resize: vertical; }
+    .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .checks { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1rem; }
+    .check { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.5; }
+    .check input[type=checkbox] { margin-top: 2px; width: 14px; height: 14px; accent-color: var(--navy); flex-shrink: 0; }
+
+    /* ── Buttons ── */
+    .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+    .btn { padding: 8px 18px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
     .btn:hover { background: var(--bg-tertiary); }
     .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
     .btn.primary:hover { opacity: 0.88; }
     .btn.danger { background: #A32D2D; color: #fff; border-color: #A32D2D; }
     .btn.danger:hover { opacity: 0.88; }
     .btn.sm { padding: 5px 12px; font-size: 12px; }
+
+    /* ── Result box ── */
     .result-box { background: var(--bg-secondary); border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem; display: none; border-left: 3px solid var(--navy); }
     .result-box.show { display: block; }
     .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .result-label { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
+    .result-note { font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+
+    /* ── Badges ── */
     .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
     .badge.pending { background: #E8E8FF; color: #2D2D8E; }
     .badge.complete { background: #C0DD97; color: #27500A; }
@@ -78,172 +124,258 @@
     .badge.high { background: #F7C1C1; color: #791F1F; }
     .badge.medium { background: #FAC775; color: #633806; }
     .badge.low { background: #C0DD97; color: #27500A; }
-    .result-note { font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+
+    /* ── Platform tabs ── */
     .platform-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-    .ptab { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
+    .ptab { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
     .ptab:hover { background: var(--bg-secondary); }
     .ptab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-    .bulk-bar { display: none; align-items: center; gap: 10px; padding: 10px 14px; background: var(--navy); border-radius: var(--radius); margin-bottom: 10px; flex-wrap: wrap; }
+
+    /* ── Bulk bar ── */
+    .bulk-bar { display: none; align-items: center; gap: 10px; padding: 9px 14px; background: var(--navy); border-radius: var(--radius); margin-bottom: 10px; flex-wrap: wrap; }
     .bulk-bar.show { display: flex; }
     .bulk-bar-text { font-size: 13px; color: #fff; flex: 1; }
+
+    /* ── Table ── */
     .table-wrap { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .table-head { display: grid; grid-template-columns: 36px 90px 140px minmax(0,1fr) 190px 150px 110px 120px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
-    .th { font-size: 11px; color: var(--text-secondary); padding: 10px 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-    .table-row { display: grid; grid-template-columns: 36px 90px 140px minmax(0,1fr) 190px 150px 110px 120px; border-bottom: 0.5px solid var(--border); align-items: start; }
+    .table-head { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 115px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+    .th { font-size: 11px; color: var(--text-secondary); padding: 9px 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table-row { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 115px; border-bottom: 0.5px solid var(--border); align-items: start; }
     .table-row:last-child { border-bottom: none; }
     .table-row:hover { background: var(--bg-secondary); }
     .table-row.selected { background: rgba(26,26,46,0.05); }
-    .td { font-size: 12px; color: var(--text); padding: 10px 10px; word-break: break-word; line-height: 1.5; }
+    .td { font-size: 12px; color: var(--text); padding: 9px 10px; word-break: break-word; line-height: 1.5; }
     .td.muted { color: var(--text-secondary); }
     .td a { color: #185FA5; font-size: 11px; word-break: break-all; }
-    .td.center { display: flex; align-items: center; justify-content: center; padding-top: 12px; }
-    .row-cb { width: 15px; height: 15px; accent-color: var(--navy); cursor: pointer; }
-    .row-actions { display: flex; flex-direction: column; gap: 5px; padding-top: 6px; }
+    .td.center { display: flex; align-items: center; justify-content: center; padding-top: 11px; }
+    .row-cb { width: 14px; height: 14px; accent-color: var(--navy); cursor: pointer; }
+    .row-actions { display: flex; flex-direction: column; gap: 4px; padding-top: 6px; }
     .empty { font-size: 13px; color: var(--text-secondary); padding: 2.5rem; text-align: center; }
-    .settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; }
-    .settings-overlay.show { display: flex; align-items: center; justify-content: center; }
+
+    /* ── Identifier tab ── */
+    .identifier-empty { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 13px; }
+    .id-meta { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+    .id-meta-item { background: var(--bg-secondary); border-radius: var(--radius); padding: 10px 14px; }
+    .id-meta-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .id-meta-val { font-size: 13px; font-weight: 500; color: var(--text); }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.25rem; }
+    .img-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .img-card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
+    .img-card-title { font-size: 12px; font-weight: 500; }
+    .img-card-sub { font-size: 11px; color: var(--text-secondary); }
+    .img-area { height: 180px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary); }
+    .flag-strip { padding: 8px 14px; display: flex; flex-direction: column; gap: 0; }
+    .flag { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
+    .flag:last-child { border-bottom: none; }
+    .flag-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+    .flag-dot.red { background: #A32D2D; }
+    .flag-dot.green { background: #3B6D11; }
+    .flag-dot.amber { background: #854F0B; }
+    .flag-lbl { color: var(--text-secondary); min-width: 100px; }
+    .flag-val { color: var(--text); font-weight: 500; flex: 1; }
+    .flag-note { font-size: 11px; margin-top: 1px; }
+    .flag-note.bad { color: #A32D2D; }
+    .flag-note.ok { color: #3B6D11; }
+    .verdict-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-secondary); border-radius: var(--radius); margin-bottom: 1rem; flex-wrap: wrap; }
+    .verdict-label { font-size: 13px; color: var(--text-secondary); }
+    .verdict-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .verdict-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text); cursor: pointer; font-family: inherit; }
+    .verdict-btn.active-no { background: #F7C1C1; color: #791F1F; border-color: #F7C1C1; font-weight: 500; }
+    .verdict-btn.active-inc { background: #FAC775; color: #633806; border-color: #FAC775; font-weight: 500; }
+    .verdict-btn.active-yes { background: #C0DD97; color: #27500A; border-color: #C0DD97; font-weight: 500; }
+
+    /* ── Settings overlay ── */
+    .settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
+    .settings-overlay.show { display: flex; }
     .settings-panel { background: var(--bg); border-radius: var(--radius-lg); padding: 1.5rem; width: 420px; max-width: 90vw; }
-    .settings-title { font-size: 16px; font-weight: 500; margin-bottom: 1.25rem; color: var(--text); }
-    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 0.5px solid var(--border); gap: 16px; }
+    .settings-title { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 0.5px solid var(--border); gap: 16px; }
     .setting-row:last-of-type { border-bottom: none; }
-    .setting-label { font-size: 13px; color: var(--text); font-weight: 500; }
+    .setting-label { font-size: 13px; font-weight: 500; }
     .setting-desc { font-size: 11px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
-    .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+    .toggle { position: relative; width: 38px; height: 21px; flex-shrink: 0; }
     .toggle input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider { position: absolute; inset: 0; background: var(--bg-tertiary); border-radius: 22px; cursor: pointer; transition: background 0.2s; }
+    .toggle-slider { position: absolute; inset: 0; background: var(--bg-tertiary); border-radius: 21px; cursor: pointer; transition: background 0.2s; }
     .toggle input:checked + .toggle-slider { background: var(--navy); }
-    .toggle-slider:before { content: ''; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: transform 0.2s; }
-    .toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
-    @media (max-width: 700px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-grid.two { grid-template-columns: 1fr; }
-      .table-head, .table-row { grid-template-columns: 1fr; }
-      .th:not(:first-child) { display: none; }
-    }
+    .toggle-slider:before { content: ''; position: absolute; height: 15px; width: 15px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: transform 0.2s; }
+    .toggle input:checked + .toggle-slider:before { transform: translateX(17px); }
   </style>
 </head>
 <body>
-<div class="page">
-  <div class="top">
-    <div>
-      <div class="brand"><div class="brand-dot"></div><div class="brand-name">Brand Protection</div></div>
-      <div class="page-title">Listing Scorer</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <div class="sidebar-brand">
+      <span class="sidebar-brand-dot"></span>
+      <span class="sidebar-brand-name">Brand Protection</span>
     </div>
-    <div class="top-actions">
+
+    <div class="sidebar-section">
+      <button class="sidebar-section-btn" onclick="toggleSection('archive', this)">
+        <span>Product Archive</span>
+        <span class="sidebar-chevron" id="chevron-archive">▶</span>
+      </button>
+      <div class="sidebar-items" id="section-archive">
+        <div class="sidebar-empty">No seasons uploaded yet</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <button class="sidebar-section-btn" onclick="toggleSection('counterfeit', this)">
+        <span>Counterfeit Archive</span>
+        <span class="sidebar-chevron" id="chevron-counterfeit">▶</span>
+      </button>
+      <div class="sidebar-items" id="section-counterfeit">
+        <div class="sidebar-empty">No listings archived yet</div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-label">Phase 1 · Supreme</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="collapse-btn" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+    <div class="topbar-title">Listing Scorer</div>
+    <div class="topbar-actions">
       <button class="btn" onclick="openSettings()">Settings</button>
       <button class="btn" onclick="exportCSV()">Export CSV ↓</button>
     </div>
   </div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-label">Total reviewed</div><div class="stat-val" id="s-total">0</div></div>
-    <div class="stat"><div class="stat-label">Pending Review</div><div class="stat-val amber" id="s-pending">0</div></div>
-    <div class="stat"><div class="stat-label">Review Complete</div><div class="stat-val blue" id="s-complete">0</div></div>
-    <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
-    <div class="stat"><div class="stat-label">No Action</div><div class="stat-val green" id="s-noaction">0</div></div>
+  <div class="tabs-bar">
+    <button class="tab active" onclick="switchTab('listings', this)">Listings</button>
+    <button class="tab disabled" id="tab-identifier" onclick="switchTab('identifier', this)">Identifier</button>
   </div>
 
-  <div class="card">
-    <div class="card-title">New listing</div>
-    <div class="form-grid">
-      <div class="field"><label>Date</label><input type="date" id="f-date"></div>
-      <div class="field"><label>Seller name</label><input type="text" id="f-seller" placeholder="e.g. Custom Vinyl Stickers"></div>
-      <div class="field"><label>Platform</label>
-        <select id="f-platform">
-          <option>Amazon</option><option>Alibaba</option><option>Poshmark</option>
-          <option>Depop</option><option>Redbubble</option><option>DHgate</option>
-          <option>eBay</option><option>Etsy</option><option>Facebook</option>
-          <option>Instagram</option><option>Mercari</option><option>SHEIN</option>
-          <option>TikTok</option><option>Walmart</option>
-        </select>
+  <div class="page">
+
+    <!-- Listings tab -->
+    <div class="tab-panel active" id="panel-listings">
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
+        <div class="stat"><div class="stat-label">Pending Review</div><div class="stat-val amber" id="s-pending">0</div></div>
+        <div class="stat"><div class="stat-label">Review Complete</div><div class="stat-val blue" id="s-complete">0</div></div>
+        <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
+        <div class="stat"><div class="stat-label">No Action</div><div class="stat-val green" id="s-noaction">0</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">New listing</div>
+        <div class="form-grid">
+          <div class="field"><label>Date</label><input type="date" id="f-date"></div>
+          <div class="field"><label>Seller name</label><input type="text" id="f-seller" placeholder="e.g. Custom Vinyl Stickers"></div>
+          <div class="field"><label>Platform</label>
+            <select id="f-platform">
+              <option>Amazon</option><option>Alibaba</option><option>Poshmark</option>
+              <option>Depop</option><option>Redbubble</option><option>DHgate</option>
+              <option>eBay</option><option>Etsy</option><option>Facebook</option>
+              <option>Instagram</option><option>Mercari</option><option>SHEIN</option>
+              <option>TikTok</option><option>Walmart</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid two">
+          <div class="field"><label>Listing URL</label><input type="text" id="f-link" placeholder="https://..."></div>
+          <div class="field"><label>Product name / listing title</label><input type="text" id="f-product" placeholder="e.g. Supreme Box Logo Hoodie"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Listed price (USD)</label><input type="number" id="f-price" placeholder="e.g. 5.99"></div>
+          <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
+          <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
+        </div>
+        <div class="section-label">Signals observed</div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="c-quality"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
+          <label class="check"><input type="checkbox" id="c-price"> Price significantly below MSRP or known resale value</label>
+          <label class="check"><input type="checkbox" id="c-collab"> Claims unofficial collaboration not on verified collab list</label>
+          <label class="check"><input type="checkbox" id="c-fakeproduct" onchange="updateIdentifierTab()"> Product type never made by Supreme</label>
+          <label class="check"><input type="checkbox" id="c-highqty"> Suspiciously high quantity for a Supreme product</label>
+          <label class="check"><input type="checkbox" id="c-parody"> Parody item — uses Supreme name but product differs</label>
+          <label class="check"><input type="checkbox" id="c-nameDrop"> Uses Supreme name in listing description only — no trademark on product</label>
+          <label class="check"><input type="checkbox" id="c-highRep"> High-quality replica — visually matches authentic product</label>
+        </div>
+        <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
+        <div class="btn-row">
+          <button class="btn primary" onclick="scoreListing()">Score listing</button>
+          <button class="btn" onclick="clearForm()">Clear</button>
+        </div>
+        <div class="result-box" id="result-box">
+          <div class="result-row"><span class="result-label">Status</span><span class="badge" id="r-status"></span></div>
+          <div class="result-row"><span class="result-label">Confidence</span><span class="badge" id="r-confidence"></span></div>
+          <div class="result-note" id="r-note"></div>
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="btn primary" onclick="addToLog()">Add to log</button>
+            <button class="btn" onclick="document.getElementById('result-box').classList.remove('show')">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Filter by platform</div>
+      <div class="platform-tabs">
+        <button class="ptab active" onclick="filterPlatform('All', this)">All</button>
+        <button class="ptab" onclick="filterPlatform('Amazon', this)">Amazon</button>
+        <button class="ptab" onclick="filterPlatform('Alibaba', this)">Alibaba</button>
+        <button class="ptab" onclick="filterPlatform('Poshmark', this)">Poshmark</button>
+        <button class="ptab" onclick="filterPlatform('Depop', this)">Depop</button>
+        <button class="ptab" onclick="filterPlatform('Redbubble', this)">Redbubble</button>
+        <button class="ptab" onclick="filterPlatform('DHgate', this)">DHgate</button>
+        <button class="ptab" onclick="filterPlatform('eBay', this)">eBay</button>
+        <button class="ptab" onclick="filterPlatform('Etsy', this)">Etsy</button>
+        <button class="ptab" onclick="filterPlatform('Facebook', this)">Facebook</button>
+        <button class="ptab" onclick="filterPlatform('Instagram', this)">Instagram</button>
+        <button class="ptab" onclick="filterPlatform('Mercari', this)">Mercari</button>
+        <button class="ptab" onclick="filterPlatform('SHEIN', this)">SHEIN</button>
+        <button class="ptab" onclick="filterPlatform('TikTok', this)">TikTok</button>
+        <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
+      </div>
+
+      <div class="bulk-bar" id="bulk-bar">
+        <span class="bulk-bar-text" id="bulk-bar-text">0 listings selected</span>
+        <button class="btn sm danger" onclick="bulkSendToReact()">Send to React</button>
+        <button class="btn sm" style="color:#fff;border-color:rgba(255,255,255,0.3);background:transparent;" onclick="clearSelection()">Clear selection</button>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <div class="th" style="display:flex;align-items:center;justify-content:center;">
+            <input type="checkbox" class="row-cb" id="select-all" onchange="toggleSelectAll(this)">
+          </div>
+          <div class="th">Date</div>
+          <div class="th">Seller</div>
+          <div class="th">Link / Product</div>
+          <div class="th">Notes</div>
+          <div class="th">Status</div>
+          <div class="th">Confidence</div>
+          <div class="th">Actions</div>
+        </div>
+        <div id="log-body"><div class="empty">No listings scored yet.</div></div>
       </div>
     </div>
-    <div class="form-grid two">
-      <div class="field"><label>Listing URL</label><input type="text" id="f-link" placeholder="https://..."></div>
-      <div class="field"><label>Product name / listing title</label><input type="text" id="f-product" placeholder="e.g. Supreme Box Logo Hoodie"></div>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Listed price (USD)</label><input type="number" id="f-price" placeholder="e.g. 5.99"></div>
-      <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
-      <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
-    </div>
-    <div class="section-label">Signals observed</div>
-    <div class="checks">
-      <label class="check"><input type="checkbox" id="c-quality"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
-      <label class="check"><input type="checkbox" id="c-price"> Price significantly below MSRP or known resale value</label>
-      <label class="check"><input type="checkbox" id="c-collab"> Claims unofficial collaboration not on verified collab list</label>
-      <label class="check"><input type="checkbox" id="c-fakeproduct"> Product type never made by Supreme (e.g. credit card skins, phone cases)</label>
-      <label class="check"><input type="checkbox" id="c-highqty"> Suspiciously high quantity for a Supreme product</label>
-      <label class="check"><input type="checkbox" id="c-parody"> Parody item — uses Supreme name but product differs</label>
-      <label class="check"><input type="checkbox" id="c-nameDrop"> Uses Supreme name in listing description only — no trademark on product</label>
-      <label class="check"><input type="checkbox" id="c-highRep"> High-quality replica — visually matches authentic product</label>
-    </div>
-    <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
-    <div class="btn-row">
-      <button class="btn primary" onclick="scoreListing()">Score listing</button>
-      <button class="btn" onclick="clearForm()">Clear</button>
-    </div>
-    <div class="result-box" id="result-box">
-      <div class="result-row"><span class="result-label">Status</span><span class="badge" id="r-status"></span></div>
-      <div class="result-row"><span class="result-label">Confidence</span><span class="badge" id="r-confidence"></span></div>
-      <div class="result-note" id="r-note"></div>
-      <div class="btn-row" style="margin-top:14px;">
-        <button class="btn primary" onclick="addToLog()">Add to log</button>
-        <button class="btn" onclick="document.getElementById('result-box').classList.remove('show')">Dismiss</button>
+
+    <!-- Identifier tab -->
+    <div class="tab-panel" id="panel-identifier">
+      <div id="identifier-content">
+        <div class="identifier-empty">Select a listing from the Listings tab to open the Identifier view.</div>
       </div>
     </div>
-  </div>
 
-  <div class="section-label">Filter by platform</div>
-  <div class="platform-tabs">
-    <button class="ptab active" onclick="filterPlatform('All', this)">All</button>
-    <button class="ptab" onclick="filterPlatform('Amazon', this)">Amazon</button>
-    <button class="ptab" onclick="filterPlatform('Alibaba', this)">Alibaba</button>
-    <button class="ptab" onclick="filterPlatform('Poshmark', this)">Poshmark</button>
-    <button class="ptab" onclick="filterPlatform('Depop', this)">Depop</button>
-    <button class="ptab" onclick="filterPlatform('Redbubble', this)">Redbubble</button>
-    <button class="ptab" onclick="filterPlatform('DHgate', this)">DHgate</button>
-    <button class="ptab" onclick="filterPlatform('eBay', this)">eBay</button>
-    <button class="ptab" onclick="filterPlatform('Etsy', this)">Etsy</button>
-    <button class="ptab" onclick="filterPlatform('Facebook', this)">Facebook</button>
-    <button class="ptab" onclick="filterPlatform('Instagram', this)">Instagram</button>
-    <button class="ptab" onclick="filterPlatform('Mercari', this)">Mercari</button>
-    <button class="ptab" onclick="filterPlatform('SHEIN', this)">SHEIN</button>
-    <button class="ptab" onclick="filterPlatform('TikTok', this)">TikTok</button>
-    <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
-  </div>
-
-  <div class="bulk-bar" id="bulk-bar">
-    <span class="bulk-bar-text" id="bulk-bar-text">0 listings selected</span>
-    <button class="btn sm danger" onclick="bulkSendToReact()">Send to React</button>
-    <button class="btn sm" style="color:#fff;border-color:rgba(255,255,255,0.3);background:transparent;" onclick="clearSelection()">Clear selection</button>
-  </div>
-
-  <div class="table-wrap">
-    <div class="table-head">
-      <div class="th" style="display:flex;align-items:center;justify-content:center;">
-        <input type="checkbox" class="row-cb" id="select-all" onchange="toggleSelectAll(this)">
-      </div>
-      <div class="th">Date</div>
-      <div class="th">Seller</div>
-      <div class="th">Link / Product</div>
-      <div class="th">Notes</div>
-      <div class="th">Status</div>
-      <div class="th">Confidence</div>
-      <div class="th">Actions</div>
-    </div>
-    <div id="log-body"><div class="empty">No listings scored yet.</div></div>
   </div>
 </div>
 
+<!-- Settings -->
 <div class="settings-overlay" id="settings-overlay" onclick="closeSettingsOutside(event)">
   <div class="settings-panel">
     <div class="settings-title">Settings</div>
     <div class="setting-row">
       <div>
         <div class="setting-label">Auto-send High confidence to React</div>
-        <div class="setting-desc">When enabled, listings scored with High confidence are automatically marked Sent to React without manual review.</div>
+        <div class="setting-desc">When enabled, High confidence listings are automatically marked Sent to React without manual review.</div>
       </div>
       <label class="toggle">
         <input type="checkbox" id="toggle-autoreact" onchange="saveSettings()">
@@ -261,8 +393,50 @@
   let currentResult = null;
   let activeFilter = 'All';
   let settings = { autoReact: false };
+  let activeListingId = null;
+  let sidebarOpen = true;
 
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+  function toggleSidebar() {
+    sidebarOpen = !sidebarOpen;
+    document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
+  }
+
+  function toggleSection(id, btn) {
+    const items = document.getElementById('section-' + id);
+    const chevron = document.getElementById('chevron-' + id);
+    const isOpen = items.classList.toggle('open');
+    chevron.classList.toggle('open', isOpen);
+  }
+
+  function switchTab(name, el) {
+    if (el.classList.contains('disabled')) return;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
+  }
+
+  function updateIdentifierTab() {
+    const fakeProduct = document.getElementById('c-fakeproduct').checked;
+    const otherSignals = ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep']
+      .some(id => document.getElementById(id).checked);
+    const tab = document.getElementById('tab-identifier');
+    if (fakeProduct && !otherSignals) {
+      tab.classList.add('disabled');
+      tab.classList.remove('active');
+      if (document.getElementById('panel-identifier').classList.contains('active')) {
+        switchTab('listings', document.querySelector('.tab'));
+      }
+    } else {
+      tab.classList.remove('disabled');
+    }
+  }
+
+  ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep'].forEach(id => {
+    document.getElementById(id).addEventListener('change', updateIdentifierTab);
+  });
 
   function scoreListing() {
     const price = parseFloat(document.getElementById('f-price').value) || 0;
@@ -279,9 +453,7 @@
     const extraNotes = document.getElementById('f-notes').value.trim();
     const product = document.getElementById('f-product').value.trim();
 
-    let score = 0;
-    let reasons = [];
-
+    let score = 0; let reasons = [];
     if (fakeProduct) { score += 4; reasons.push('product type never manufactured by Supreme'); }
     if (quality) { score += 3; reasons.push('visibly poor quality — logo, font, or colorway issues'); }
     if (collab) { score += 3; reasons.push('claims unofficial collaboration not on verified collab list'); }
@@ -302,8 +474,10 @@
     const isLowConf = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
     const confidence = isHighConf ? 'High' : isLowConf ? 'Low' : 'Medium';
 
-    let status, noteText;
+    const otherSignals = quality || priceFlag || collab || highQty || parody || nameDrop || highRep;
+    const identifierEnabled = !fakeProduct || (fakeProduct && otherSignals);
 
+    let status, noteText;
     if (parody && !quality && !collab && !highRep && !fakeProduct) {
       status = 'Pending Review';
       noteText = 'Parody item flagged. Recommend second review to determine enforcement or no action.' + (reasons.filter(r => !r.includes('parody')).length ? ' Additional signals: ' + reasons.filter(r => !r.includes('parody')).join('; ') + '.' : '');
@@ -325,7 +499,6 @@
       status = 'No Action';
       noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
     }
-
     if (extraNotes) noteText += ' Additional context: ' + extraNotes;
 
     currentResult = {
@@ -335,7 +508,10 @@
       platform: document.getElementById('f-platform').value,
       link: document.getElementById('f-link').value || '—',
       product: product || '—',
-      status, confidence, note: noteText, selected: false
+      status, confidence, note: noteText,
+      identifierEnabled, selected: false,
+      signals: { quality, priceFlag, collab, fakeProduct, highQty, parody, nameDrop, highRep },
+      price, msrp
     };
 
     document.getElementById('r-status').textContent = status;
@@ -358,11 +534,74 @@
     log.push(currentResult);
     updateStats(); renderLog(); clearForm();
     document.getElementById('result-box').classList.remove('show');
+    updateIdentifierTab();
+  }
+
+  function openIdentifier(id) {
+    const item = log.find(l => l.id === id);
+    if (!item || !item.identifierEnabled) return;
+    activeListingId = id;
+    renderIdentifier(item);
+    const tabEl = document.getElementById('tab-identifier');
+    tabEl.classList.remove('disabled');
+    switchTab('identifier', tabEl);
+  }
+
+  function renderIdentifier(item) {
+    const priceDiff = item.msrp > 0 && item.price > 0 ? Math.round((1 - item.price / item.msrp) * 100) + '% below MSRP' : '—';
+    document.getElementById('identifier-content').innerHTML =
+      '<div class="id-meta">' +
+        '<div class="id-meta-item"><div class="id-meta-label">Seller</div><div class="id-meta-val">' + item.seller + '</div></div>' +
+        '<div class="id-meta-item"><div class="id-meta-label">Platform</div><div class="id-meta-val">' + item.platform + '</div></div>' +
+        '<div class="id-meta-item"><div class="id-meta-label">Status</div><div class="id-meta-val"><span class="badge ' + statusClass(item.status) + '">' + item.status + '</span></div></div>' +
+        '<div class="id-meta-item"><div class="id-meta-label">Confidence</div><div class="id-meta-val"><span class="badge ' + item.confidence.toLowerCase() + '">' + item.confidence + '</span></div></div>' +
+      '</div>' +
+      '<div class="compare-grid">' +
+        '<div class="img-card">' +
+          '<div class="img-card-header"><div class="img-card-title">Authentic product</div><div class="img-card-sub">Repository</div></div>' +
+          '<div class="img-area">Image will appear here once repository is populated</div>' +
+          '<div class="flag-strip">' +
+            '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">Source</div><div class="flag-val">Verified product archive</div></div>' +
+            (item.msrp > 0 ? '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">MSRP</div><div class="flag-val">$' + item.msrp.toFixed(2) + '</div></div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="img-card">' +
+          '<div class="img-card-header"><div class="img-card-title">Suspect listing</div><div class="img-card-sub">' + item.platform + (item.price > 0 ? ' — $' + item.price.toFixed(2) : '') + '</div></div>' +
+          '<div class="img-area">Upload or link suspect listing image</div>' +
+          '<div class="flag-strip">' +
+            (item.signals.quality ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Quality</div><div><div class="flag-val">Poor quality detected</div><div class="flag-note bad">Logo, font, or colorway issues</div></div></div>' : '') +
+            (item.signals.fakeProduct ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Product type</div><div><div class="flag-val">Never made by Supreme</div><div class="flag-note bad">Confirmed non-existent product line</div></div></div>' : '') +
+            (item.price > 0 && item.msrp > 0 ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Price</div><div><div class="flag-val">$' + item.price.toFixed(2) + '</div><div class="flag-note bad">' + priceDiff + '</div></div></div>' : '') +
+            (item.signals.collab ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Collaboration</div><div><div class="flag-val">Unofficial collab claimed</div></div></div>' : '') +
+            (!item.signals.quality && !item.signals.fakeProduct && !item.signals.collab ? '<div class="flag"><div class="flag-dot amber"></div><div class="flag-lbl">Signals</div><div class="flag-val">Review signals in listing tab</div></div>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="section-label">Verdict</div>' +
+      '<div class="verdict-row">' +
+        '<div class="verdict-label">Does this listing match authentic product?</div>' +
+        '<div class="verdict-opts">' +
+          '<button class="verdict-btn active-no" onclick="setVerdict(' + item.id + ', \'no\', this)">No match — counterfeit</button>' +
+          '<button class="verdict-btn" onclick="setVerdict(' + item.id + ', \'inc\', this)">Inconclusive</button>' +
+          '<button class="verdict-btn" onclick="setVerdict(' + item.id + ', \'yes\', this)">Match — authentic</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="btn-row">' +
+        '<button class="btn primary" onclick="updateStatus(' + item.id + ', \'Sent to React\')">Send to React</button>' +
+        '<button class="btn" onclick="updateStatus(' + item.id + ', \'Review Complete\')">Mark complete</button>' +
+        '<button class="btn" onclick="switchTab(\'listings\', document.querySelector(\'.tab\'))">Back to listings</button>' +
+      '</div>';
+  }
+
+  function setVerdict(id, v, el) {
+    el.closest('.verdict-opts').querySelectorAll('.verdict-btn').forEach(b => b.className = 'verdict-btn');
+    el.classList.add('active-' + v);
   }
 
   function updateStatus(id, newStatus) {
     const item = log.find(l => l.id === id);
     if (item) { item.status = newStatus; updateStats(); renderLog(); }
+    if (activeListingId === id) renderIdentifier(item);
   }
 
   function toggleSelect(id, checked) {
@@ -414,6 +653,7 @@
       const isPending = l.status === 'Pending Review';
       const isComplete = l.status === 'Review Complete';
       const isReact = l.status === 'Sent to React';
+      const canIdentify = l.identifierEnabled;
       return '<div class="table-row' + (l.selected ? ' selected' : '') + '">' +
         '<div class="td center"><input type="checkbox" class="row-cb" ' + (l.selected ? 'checked' : '') + ' onchange="toggleSelect(' + l.id + ', this.checked)"></div>' +
         '<div class="td muted">' + l.date + '</div>' +
@@ -426,6 +666,7 @@
           (!isReact ? '<button class="btn sm danger" onclick="updateStatus(' + l.id + ', \'Sent to React\')">Send to React</button>' : '') +
           (isPending ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Review Complete\')">Mark Complete</button>' : '') +
           (isComplete ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Pending Review\')">Reopen</button>' : '') +
+          (canIdentify ? '<button class="btn sm" onclick="openIdentifier(' + l.id + ')">Identify ↗</button>' : '<button class="btn sm" style="opacity:0.35;cursor:not-allowed" disabled>Identify</button>') +
         '</div></div>' +
       '</div>';
     }).join('');
@@ -444,6 +685,7 @@
     ['c-quality','c-price','c-collab','c-fakeproduct','c-highqty','c-parody','c-nameDrop','c-highRep'].forEach(id => document.getElementById(id).checked = false);
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
     currentResult = null;
+    updateIdentifierTab();
   }
 
   function exportCSV() {
