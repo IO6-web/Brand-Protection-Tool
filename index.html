@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brand Protection — Listing Scorer</title>
+  <title>Brand Protection</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -11,7 +11,7 @@
       --text: #1a1a1a; --text-secondary: #666660;
       --border: rgba(0,0,0,0.12); --border-mid: rgba(0,0,0,0.2);
       --radius: 8px; --radius-lg: 12px; --navy: #1A1A2E;
-      --sidebar-w: 220px;
+      --sidebar-w: 210px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -22,100 +22,85 @@
     }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; display: flex; }
 
-    /* ── Sidebar ── */
-    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--bg); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.22s ease, opacity 0.22s ease; overflow: hidden; }
-    .sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
-    .sidebar-inner { width: var(--sidebar-w); padding: 1.25rem 0; display: flex; flex-direction: column; height: 100%; }
-    .sidebar-brand { padding: 0 1rem 1rem; border-bottom: 0.5px solid var(--border); margin-bottom: 0.75rem; }
-    .sidebar-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--navy); display: inline-block; margin-right: 6px; }
-    .sidebar-brand-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; }
-    .sidebar-section { margin-bottom: 4px; }
-    .sidebar-section-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 8px 1rem; font-size: 13px; font-weight: 500; color: var(--text); background: none; border: none; cursor: pointer; font-family: inherit; }
-    .sidebar-section-btn:hover { background: var(--bg-secondary); }
-    .sidebar-chevron { font-size: 10px; color: var(--text-secondary); transition: transform 0.18s; }
-    .sidebar-chevron.open { transform: rotate(90deg); }
-    .sidebar-items { display: none; padding: 2px 0 6px; }
-    .sidebar-items.open { display: block; }
-    .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 1rem 7px 1.75rem; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
-    .sidebar-item:hover { background: var(--bg-secondary); color: var(--text); }
-    .sidebar-item-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-mid); flex-shrink: 0; }
-    .sidebar-empty { font-size: 11px; color: var(--text-secondary); padding: 4px 1rem 4px 1.75rem; font-style: italic; }
+    /* Sidebar */
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--bg); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.22s ease; overflow: hidden; }
+    .sidebar.collapsed { width: 0; }
+    .sidebar-inner { width: var(--sidebar-w); padding: 1rem 0; display: flex; flex-direction: column; height: 100%; }
+    .sidebar-brand { padding: 0 1rem 1rem; border-bottom: 0.5px solid var(--border); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+    .sidebar-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--navy); flex-shrink: 0; }
+    .sidebar-brand-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 1rem 4px; }
+    .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 1rem; font-size: 13px; color: var(--text-secondary); cursor: pointer; white-space: nowrap; border: none; background: none; font-family: inherit; width: 100%; text-align: left; }
+    .nav-item:hover { background: var(--bg-secondary); color: var(--text); }
+    .nav-item.active { background: var(--bg-secondary); color: var(--text); font-weight: 500; }
+    .nav-icon { font-size: 14px; flex-shrink: 0; }
     .sidebar-footer { margin-top: auto; padding: 1rem; border-top: 0.5px solid var(--border); }
     .sidebar-footer-label { font-size: 11px; color: var(--text-secondary); }
 
-    /* ── Main ── */
+    /* Main */
     .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-    .topbar { display: flex; align-items: center; gap: 10px; padding: 12px 1.5rem; background: var(--bg); border-bottom: 0.5px solid var(--border); }
-    .collapse-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--border-mid); border-radius: var(--radius); background: var(--bg-secondary); cursor: pointer; font-size: 14px; color: var(--text-secondary); flex-shrink: 0; }
+    .topbar { display: flex; align-items: center; gap: 10px; padding: 11px 1.5rem; background: var(--bg); border-bottom: 0.5px solid var(--border); }
+    .collapse-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--border-mid); border-radius: var(--radius); background: var(--bg-secondary); cursor: pointer; font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
     .collapse-btn:hover { background: var(--bg-tertiary); }
-    .topbar-title { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+    .topbar-title { font-size: 15px; font-weight: 500; flex: 1; }
     .topbar-actions { display: flex; gap: 8px; }
 
-    /* ── Tabs ── */
-    .tabs-bar { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); background: var(--bg); padding: 0 1.5rem; }
-    .tab { font-size: 13px; padding: 10px 16px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    /* Tabs */
+    .tabs-bar { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg); padding: 0 1.5rem; }
+    .tab { font-size: 13px; padding: 10px 16px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; white-space: nowrap; }
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--navy); }
-    .tab.disabled { color: var(--text-secondary); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+    .tab.disabled { opacity: 0.38; cursor: not-allowed; pointer-events: none; }
 
-    /* ── Page content ── */
-    .page { padding: 1.5rem; flex: 1; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+    /* Page */
+    .page { padding: 1.5rem; flex: 1; overflow-y: auto; }
+    .view { display: none; }
+    .view.active { display: block; }
 
-    /* ── Stats ── */
-    .stats { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
-    .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
-    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .stat-val { font-size: 24px; font-weight: 500; }
-    .stat-val.amber { color: #854F0B; }
-    .stat-val.blue { color: #1A4FA3; }
-    .stat-val.red { color: #A32D2D; }
-    .stat-val.green { color: #3B6D11; }
-    @media (prefers-color-scheme: dark) {
-      .stat-val.amber { color: #FAC775; }
-      .stat-val.blue { color: #7DB3F5; }
-      .stat-val.red { color: #F09595; }
-      .stat-val.green { color: #97C459; }
-    }
-
-    /* ── Card / Form ── */
-    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
-    .card-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 1rem; }
-    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
-    .form-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .field { display: flex; flex-direction: column; gap: 4px; }
-    .field label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-    .field input, .field select, .field textarea {
-      width: 100%; padding: 7px 10px; font-size: 13px; color: var(--text);
-      background: var(--bg-secondary); border: 0.5px solid var(--border-mid);
-      border-radius: var(--radius); outline: none; font-family: inherit;
-    }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); }
-    .field textarea { height: 68px; resize: vertical; }
-    .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-    .checks { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1rem; }
-    .check { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--text); cursor: pointer; line-height: 1.5; }
-    .check input[type=checkbox] { margin-top: 2px; width: 14px; height: 14px; accent-color: var(--navy); flex-shrink: 0; }
-
-    /* ── Buttons ── */
-    .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-    .btn { padding: 8px 18px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
+    /* Buttons */
+    .btn { padding: 8px 16px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
     .btn:hover { background: var(--bg-tertiary); }
     .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
     .btn.primary:hover { opacity: 0.88; }
     .btn.danger { background: #A32D2D; color: #fff; border-color: #A32D2D; }
     .btn.danger:hover { opacity: 0.88; }
-    .btn.sm { padding: 5px 12px; font-size: 12px; }
+    .btn.sm { padding: 5px 11px; font-size: 12px; }
+    .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
 
-    /* ── Result box ── */
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
+    .stat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-val { font-size: 24px; font-weight: 500; }
+    .stat-val.amber { color: #854F0B; } .stat-val.blue { color: #1A4FA3; } .stat-val.red { color: #A32D2D; } .stat-val.green { color: #3B6D11; }
+    @media (prefers-color-scheme: dark) {
+      .stat-val.amber { color: #FAC775; } .stat-val.blue { color: #7DB3F5; } .stat-val.red { color: #F09595; } .stat-val.green { color: #97C459; }
+    }
+
+    /* Card / Form */
+    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+    .card-title { font-size: 13px; font-weight: 500; margin-bottom: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
+    .form-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .field input, .field select, .field textarea { width: 100%; padding: 7px 10px; font-size: 13px; color: var(--text); background: var(--bg-secondary); border: 0.5px solid var(--border-mid); border-radius: var(--radius); outline: none; font-family: inherit; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); }
+    .field textarea { height: 68px; resize: vertical; }
+    .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .checks { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1rem; }
+    .check { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; cursor: pointer; line-height: 1.5; }
+    .check input[type=checkbox] { margin-top: 2px; width: 14px; height: 14px; accent-color: var(--navy); flex-shrink: 0; }
+
+    /* Result box */
     .result-box { background: var(--bg-secondary); border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem; display: none; border-left: 3px solid var(--navy); }
     .result-box.show { display: block; }
     .result-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .result-label { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
-    .result-note { font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+    .result-note { font-size: 13px; line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
 
-    /* ── Badges ── */
+    /* Badges */
     .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
     .badge.pending { background: #E8E8FF; color: #2D2D8E; }
     .badge.complete { background: #C0DD97; color: #27500A; }
@@ -125,26 +110,26 @@
     .badge.medium { background: #FAC775; color: #633806; }
     .badge.low { background: #C0DD97; color: #27500A; }
 
-    /* ── Platform tabs ── */
+    /* Platform tabs */
     .platform-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
     .ptab { font-size: 11px; padding: 4px 11px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
     .ptab:hover { background: var(--bg-secondary); }
     .ptab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-    /* ── Bulk bar ── */
+    /* Bulk bar */
     .bulk-bar { display: none; align-items: center; gap: 10px; padding: 9px 14px; background: var(--navy); border-radius: var(--radius); margin-bottom: 10px; flex-wrap: wrap; }
     .bulk-bar.show { display: flex; }
     .bulk-bar-text { font-size: 13px; color: #fff; flex: 1; }
 
-    /* ── Table ── */
+    /* Table */
     .table-wrap { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .table-head { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 115px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+    .table-head { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 120px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
     .th { font-size: 11px; color: var(--text-secondary); padding: 9px 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-    .table-row { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 115px; border-bottom: 0.5px solid var(--border); align-items: start; }
+    .table-row { display: grid; grid-template-columns: 32px 86px 130px minmax(0,1fr) 180px 145px 105px 120px; border-bottom: 0.5px solid var(--border); align-items: start; }
     .table-row:last-child { border-bottom: none; }
     .table-row:hover { background: var(--bg-secondary); }
     .table-row.selected { background: rgba(26,26,46,0.05); }
-    .td { font-size: 12px; color: var(--text); padding: 9px 10px; word-break: break-word; line-height: 1.5; }
+    .td { font-size: 12px; padding: 9px 10px; word-break: break-word; line-height: 1.5; }
     .td.muted { color: var(--text-secondary); }
     .td a { color: #185FA5; font-size: 11px; word-break: break-all; }
     .td.center { display: flex; align-items: center; justify-content: center; padding-top: 11px; }
@@ -152,39 +137,71 @@
     .row-actions { display: flex; flex-direction: column; gap: 4px; padding-top: 6px; }
     .empty { font-size: 13px; color: var(--text-secondary); padding: 2.5rem; text-align: center; }
 
-    /* ── Identifier tab ── */
-    .identifier-empty { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 13px; }
+    /* Identifier */
     .id-meta { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.25rem; }
     .id-meta-item { background: var(--bg-secondary); border-radius: var(--radius); padding: 10px 14px; }
     .id-meta-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
-    .id-meta-val { font-size: 13px; font-weight: 500; color: var(--text); }
+    .id-meta-val { font-size: 13px; font-weight: 500; }
     .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.25rem; }
     .img-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
     .img-card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
     .img-card-title { font-size: 12px; font-weight: 500; }
     .img-card-sub { font-size: 11px; color: var(--text-secondary); }
     .img-area { height: 180px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary); }
-    .flag-strip { padding: 8px 14px; display: flex; flex-direction: column; gap: 0; }
+    .flag-strip { padding: 8px 14px; }
     .flag { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
     .flag:last-child { border-bottom: none; }
     .flag-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-    .flag-dot.red { background: #A32D2D; }
-    .flag-dot.green { background: #3B6D11; }
-    .flag-dot.amber { background: #854F0B; }
+    .flag-dot.red { background: #A32D2D; } .flag-dot.green { background: #3B6D11; } .flag-dot.amber { background: #854F0B; }
     .flag-lbl { color: var(--text-secondary); min-width: 100px; }
-    .flag-val { color: var(--text); font-weight: 500; flex: 1; }
+    .flag-val { font-weight: 500; flex: 1; }
     .flag-note { font-size: 11px; margin-top: 1px; }
-    .flag-note.bad { color: #A32D2D; }
-    .flag-note.ok { color: #3B6D11; }
+    .flag-note.bad { color: #A32D2D; } .flag-note.ok { color: #3B6D11; }
     .verdict-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-secondary); border-radius: var(--radius); margin-bottom: 1rem; flex-wrap: wrap; }
     .verdict-label { font-size: 13px; color: var(--text-secondary); }
     .verdict-opts { display: flex; gap: 8px; flex-wrap: wrap; }
-    .verdict-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text); cursor: pointer; font-family: inherit; }
+    .verdict-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); cursor: pointer; font-family: inherit; }
     .verdict-btn.active-no { background: #F7C1C1; color: #791F1F; border-color: #F7C1C1; font-weight: 500; }
     .verdict-btn.active-inc { background: #FAC775; color: #633806; border-color: #FAC775; font-weight: 500; }
     .verdict-btn.active-yes { background: #C0DD97; color: #27500A; border-color: #C0DD97; font-weight: 500; }
 
-    /* ── Settings overlay ── */
+    /* Archive pages */
+    .archive-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+    .archive-title { font-size: 18px; font-weight: 500; }
+    .archive-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+    .season-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+    .season-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; }
+    .season-card:hover { border-color: var(--navy); }
+    .season-card.active-season { border-color: var(--navy); border-width: 1.5px; }
+    .season-img { height: 100px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-secondary); }
+    .season-info { padding: 10px 12px; }
+    .season-name { font-size: 12px; font-weight: 500; }
+    .season-count { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .product-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .product-img { height: 120px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-secondary); }
+    .product-info { padding: 8px 10px; }
+    .product-name { font-size: 12px; font-weight: 500; line-height: 1.4; }
+    .product-msrp { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .upload-zone { border: 1.5px dashed var(--border-mid); border-radius: var(--radius-lg); padding: 2.5rem 1rem; text-align: center; cursor: pointer; margin-bottom: 1.5rem; }
+    .upload-zone:hover { background: var(--bg); border-color: var(--navy); }
+    .upload-zone-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .upload-zone-sub { font-size: 12px; color: var(--text-secondary); }
+    .counterfeit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .cf-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .cf-img { height: 130px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-secondary); }
+    .cf-info { padding: 10px 12px; }
+    .cf-seller { font-size: 12px; font-weight: 500; }
+    .cf-meta { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+    .cf-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: #F7C1C1; color: #791F1F; }
+    .archive-empty { text-align: center; padding: 4rem 1rem; color: var(--text-secondary); font-size: 13px; }
+    .archive-empty-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+    .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+    .pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .pill { font-size: 11px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
+    .pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* Settings */
     .settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
     .settings-overlay.show { display: flex; }
     .settings-panel { background: var(--bg); border-radius: var(--radius-lg); padding: 1.5rem; width: 420px; max-width: 90vw; }
@@ -207,28 +224,25 @@
 <div class="sidebar" id="sidebar">
   <div class="sidebar-inner">
     <div class="sidebar-brand">
-      <span class="sidebar-brand-dot"></span>
+      <div class="sidebar-dot"></div>
       <span class="sidebar-brand-name">Brand Protection</span>
     </div>
 
-    <div class="sidebar-section">
-      <button class="sidebar-section-btn" onclick="toggleSection('archive', this)">
-        <span>Product Archive</span>
-        <span class="sidebar-chevron" id="chevron-archive">▶</span>
+    <div class="nav-group">
+      <div class="nav-group-label">Enforcement</div>
+      <button class="nav-item active" id="nav-listings" onclick="navigate('listings')">
+        <span class="nav-icon">◈</span> Listings
       </button>
-      <div class="sidebar-items" id="section-archive">
-        <div class="sidebar-empty">No seasons uploaded yet</div>
-      </div>
     </div>
 
-    <div class="sidebar-section">
-      <button class="sidebar-section-btn" onclick="toggleSection('counterfeit', this)">
-        <span>Counterfeit Archive</span>
-        <span class="sidebar-chevron" id="chevron-counterfeit">▶</span>
+    <div class="nav-group">
+      <div class="nav-group-label">Archives</div>
+      <button class="nav-item" id="nav-product-archive" onclick="navigate('product-archive')">
+        <span class="nav-icon">◻</span> Product Archive
       </button>
-      <div class="sidebar-items" id="section-counterfeit">
-        <div class="sidebar-empty">No listings archived yet</div>
-      </div>
+      <button class="nav-item" id="nav-counterfeit-archive" onclick="navigate('counterfeit-archive')">
+        <span class="nav-icon">◈</span> Counterfeit Archive
+      </button>
     </div>
 
     <div class="sidebar-footer">
@@ -240,128 +254,176 @@
 <!-- Main -->
 <div class="main">
   <div class="topbar">
-    <button class="collapse-btn" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
-    <div class="topbar-title">Listing Scorer</div>
+    <button class="collapse-btn" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title" id="topbar-title">Listings</div>
     <div class="topbar-actions">
       <button class="btn" onclick="openSettings()">Settings</button>
-      <button class="btn" onclick="exportCSV()">Export CSV ↓</button>
+      <button class="btn" id="export-btn" onclick="exportCSV()">Export CSV ↓</button>
     </div>
   </div>
 
-  <div class="tabs-bar">
+  <!-- Tabs (listings only) -->
+  <div class="tabs-bar" id="tabs-bar">
     <button class="tab active" onclick="switchTab('listings', this)">Listings</button>
     <button class="tab disabled" id="tab-identifier" onclick="switchTab('identifier', this)">Identifier</button>
   </div>
 
   <div class="page">
 
-    <!-- Listings tab -->
-    <div class="tab-panel active" id="panel-listings">
-      <div class="stats">
-        <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
-        <div class="stat"><div class="stat-label">Pending Review</div><div class="stat-val amber" id="s-pending">0</div></div>
-        <div class="stat"><div class="stat-label">Review Complete</div><div class="stat-val blue" id="s-complete">0</div></div>
-        <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
-        <div class="stat"><div class="stat-label">No Action</div><div class="stat-val green" id="s-noaction">0</div></div>
-      </div>
+    <!-- Listings view -->
+    <div class="view active" id="view-listings">
 
-      <div class="card">
-        <div class="card-title">New listing</div>
-        <div class="form-grid">
-          <div class="field"><label>Date</label><input type="date" id="f-date"></div>
-          <div class="field"><label>Seller name</label><input type="text" id="f-seller" placeholder="e.g. Custom Vinyl Stickers"></div>
-          <div class="field"><label>Platform</label>
-            <select id="f-platform">
-              <option>Amazon</option><option>Alibaba</option><option>Poshmark</option>
-              <option>Depop</option><option>Redbubble</option><option>DHgate</option>
-              <option>eBay</option><option>Etsy</option><option>Facebook</option>
-              <option>Instagram</option><option>Mercari</option><option>SHEIN</option>
-              <option>TikTok</option><option>Walmart</option>
-            </select>
+      <!-- Listings tab panel -->
+      <div id="panel-listings" class="view active">
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
+          <div class="stat"><div class="stat-label">Pending Review</div><div class="stat-val amber" id="s-pending">0</div></div>
+          <div class="stat"><div class="stat-label">Review Complete</div><div class="stat-val blue" id="s-complete">0</div></div>
+          <div class="stat"><div class="stat-label">Sent to React</div><div class="stat-val red" id="s-react">0</div></div>
+          <div class="stat"><div class="stat-label">No Action</div><div class="stat-val green" id="s-noaction">0</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">New listing</div>
+          <div class="form-grid">
+            <div class="field"><label>Date</label><input type="date" id="f-date"></div>
+            <div class="field"><label>Seller name</label><input type="text" id="f-seller" placeholder="e.g. Custom Vinyl Stickers"></div>
+            <div class="field"><label>Platform</label>
+              <select id="f-platform">
+                <option>Amazon</option><option>Alibaba</option><option>Poshmark</option>
+                <option>Depop</option><option>Redbubble</option><option>DHgate</option>
+                <option>eBay</option><option>Etsy</option><option>Facebook</option>
+                <option>Instagram</option><option>Mercari</option><option>SHEIN</option>
+                <option>TikTok</option><option>Walmart</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid two">
+            <div class="field"><label>Listing URL</label><input type="text" id="f-link" placeholder="https://..."></div>
+            <div class="field"><label>Product name / listing title</label><input type="text" id="f-product" placeholder="e.g. Supreme Box Logo Hoodie"></div>
+          </div>
+          <div class="form-grid">
+            <div class="field"><label>Listed price (USD)</label><input type="number" id="f-price" placeholder="e.g. 5.99"></div>
+            <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
+            <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
+          </div>
+          <div class="section-label">Signals observed</div>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="c-quality" onchange="updateIdentifierTab()"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
+            <label class="check"><input type="checkbox" id="c-price" onchange="updateIdentifierTab()"> Price significantly below MSRP or known resale value</label>
+            <label class="check"><input type="checkbox" id="c-collab" onchange="updateIdentifierTab()"> Claims unofficial collaboration not on verified collab list</label>
+            <label class="check"><input type="checkbox" id="c-fakeproduct" onchange="updateIdentifierTab()"> Product type never made by Supreme</label>
+            <label class="check"><input type="checkbox" id="c-highqty" onchange="updateIdentifierTab()"> Suspiciously high quantity for a Supreme product</label>
+            <label class="check"><input type="checkbox" id="c-parody" onchange="updateIdentifierTab()"> Parody item — uses Supreme name but product differs</label>
+            <label class="check"><input type="checkbox" id="c-nameDrop" onchange="updateIdentifierTab()"> Uses Supreme name in listing description only — no trademark on product</label>
+            <label class="check"><input type="checkbox" id="c-highRep" onchange="updateIdentifierTab()"> High-quality replica — visually matches authentic product</label>
+          </div>
+          <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
+          <div class="btn-row">
+            <button class="btn primary" onclick="scoreListing()">Score listing</button>
+            <button class="btn" onclick="clearForm()">Clear</button>
+          </div>
+          <div class="result-box" id="result-box">
+            <div class="result-row"><span class="result-label">Status</span><span class="badge" id="r-status"></span></div>
+            <div class="result-row"><span class="result-label">Confidence</span><span class="badge" id="r-confidence"></span></div>
+            <div class="result-note" id="r-note"></div>
+            <div class="btn-row" style="margin-top:12px;">
+              <button class="btn primary" onclick="addToLog()">Add to log</button>
+              <button class="btn" onclick="document.getElementById('result-box').classList.remove('show')">Dismiss</button>
+            </div>
           </div>
         </div>
-        <div class="form-grid two">
-          <div class="field"><label>Listing URL</label><input type="text" id="f-link" placeholder="https://..."></div>
-          <div class="field"><label>Product name / listing title</label><input type="text" id="f-product" placeholder="e.g. Supreme Box Logo Hoodie"></div>
+
+        <div class="section-label">Filter by platform</div>
+        <div class="platform-tabs">
+          <button class="ptab active" onclick="filterPlatform('All', this)">All</button>
+          <button class="ptab" onclick="filterPlatform('Amazon', this)">Amazon</button>
+          <button class="ptab" onclick="filterPlatform('Alibaba', this)">Alibaba</button>
+          <button class="ptab" onclick="filterPlatform('Poshmark', this)">Poshmark</button>
+          <button class="ptab" onclick="filterPlatform('Depop', this)">Depop</button>
+          <button class="ptab" onclick="filterPlatform('Redbubble', this)">Redbubble</button>
+          <button class="ptab" onclick="filterPlatform('DHgate', this)">DHgate</button>
+          <button class="ptab" onclick="filterPlatform('eBay', this)">eBay</button>
+          <button class="ptab" onclick="filterPlatform('Etsy', this)">Etsy</button>
+          <button class="ptab" onclick="filterPlatform('Facebook', this)">Facebook</button>
+          <button class="ptab" onclick="filterPlatform('Instagram', this)">Instagram</button>
+          <button class="ptab" onclick="filterPlatform('Mercari', this)">Mercari</button>
+          <button class="ptab" onclick="filterPlatform('SHEIN', this)">SHEIN</button>
+          <button class="ptab" onclick="filterPlatform('TikTok', this)">TikTok</button>
+          <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
         </div>
-        <div class="form-grid">
-          <div class="field"><label>Listed price (USD)</label><input type="number" id="f-price" placeholder="e.g. 5.99"></div>
-          <div class="field"><label>Known MSRP (USD)</label><input type="number" id="f-msrp" placeholder="e.g. 168"></div>
-          <div class="field"><label>Quantity listed</label><input type="number" id="f-qty" placeholder="e.g. 500"></div>
+
+        <div class="bulk-bar" id="bulk-bar">
+          <span class="bulk-bar-text" id="bulk-bar-text">0 listings selected</span>
+          <button class="btn sm danger" onclick="bulkSendToReact()">Send to React</button>
+          <button class="btn sm" style="color:#fff;border-color:rgba(255,255,255,0.3);background:transparent;" onclick="clearSelection()">Clear selection</button>
         </div>
-        <div class="section-label">Signals observed</div>
-        <div class="checks">
-          <label class="check"><input type="checkbox" id="c-quality"> Visibly poor quality — crooked logo, wrong font, off colorway</label>
-          <label class="check"><input type="checkbox" id="c-price"> Price significantly below MSRP or known resale value</label>
-          <label class="check"><input type="checkbox" id="c-collab"> Claims unofficial collaboration not on verified collab list</label>
-          <label class="check"><input type="checkbox" id="c-fakeproduct" onchange="updateIdentifierTab()"> Product type never made by Supreme</label>
-          <label class="check"><input type="checkbox" id="c-highqty"> Suspiciously high quantity for a Supreme product</label>
-          <label class="check"><input type="checkbox" id="c-parody"> Parody item — uses Supreme name but product differs</label>
-          <label class="check"><input type="checkbox" id="c-nameDrop"> Uses Supreme name in listing description only — no trademark on product</label>
-          <label class="check"><input type="checkbox" id="c-highRep"> High-quality replica — visually matches authentic product</label>
-        </div>
-        <div class="field"><label>Additional notes (optional)</label><textarea id="f-notes" placeholder="Anything else observed..."></textarea></div>
-        <div class="btn-row">
-          <button class="btn primary" onclick="scoreListing()">Score listing</button>
-          <button class="btn" onclick="clearForm()">Clear</button>
-        </div>
-        <div class="result-box" id="result-box">
-          <div class="result-row"><span class="result-label">Status</span><span class="badge" id="r-status"></span></div>
-          <div class="result-row"><span class="result-label">Confidence</span><span class="badge" id="r-confidence"></span></div>
-          <div class="result-note" id="r-note"></div>
-          <div class="btn-row" style="margin-top:12px;">
-            <button class="btn primary" onclick="addToLog()">Add to log</button>
-            <button class="btn" onclick="document.getElementById('result-box').classList.remove('show')">Dismiss</button>
+
+        <div class="table-wrap">
+          <div class="table-head">
+            <div class="th" style="display:flex;align-items:center;justify-content:center;">
+              <input type="checkbox" class="row-cb" id="select-all" onchange="toggleSelectAll(this)">
+            </div>
+            <div class="th">Date</div><div class="th">Seller</div><div class="th">Link / Product</div>
+            <div class="th">Notes</div><div class="th">Status</div><div class="th">Confidence</div><div class="th">Actions</div>
           </div>
+          <div id="log-body"><div class="empty">No listings scored yet.</div></div>
         </div>
       </div>
 
-      <div class="section-label">Filter by platform</div>
-      <div class="platform-tabs">
-        <button class="ptab active" onclick="filterPlatform('All', this)">All</button>
-        <button class="ptab" onclick="filterPlatform('Amazon', this)">Amazon</button>
-        <button class="ptab" onclick="filterPlatform('Alibaba', this)">Alibaba</button>
-        <button class="ptab" onclick="filterPlatform('Poshmark', this)">Poshmark</button>
-        <button class="ptab" onclick="filterPlatform('Depop', this)">Depop</button>
-        <button class="ptab" onclick="filterPlatform('Redbubble', this)">Redbubble</button>
-        <button class="ptab" onclick="filterPlatform('DHgate', this)">DHgate</button>
-        <button class="ptab" onclick="filterPlatform('eBay', this)">eBay</button>
-        <button class="ptab" onclick="filterPlatform('Etsy', this)">Etsy</button>
-        <button class="ptab" onclick="filterPlatform('Facebook', this)">Facebook</button>
-        <button class="ptab" onclick="filterPlatform('Instagram', this)">Instagram</button>
-        <button class="ptab" onclick="filterPlatform('Mercari', this)">Mercari</button>
-        <button class="ptab" onclick="filterPlatform('SHEIN', this)">SHEIN</button>
-        <button class="ptab" onclick="filterPlatform('TikTok', this)">TikTok</button>
-        <button class="ptab" onclick="filterPlatform('Walmart', this)">Walmart</button>
-      </div>
-
-      <div class="bulk-bar" id="bulk-bar">
-        <span class="bulk-bar-text" id="bulk-bar-text">0 listings selected</span>
-        <button class="btn sm danger" onclick="bulkSendToReact()">Send to React</button>
-        <button class="btn sm" style="color:#fff;border-color:rgba(255,255,255,0.3);background:transparent;" onclick="clearSelection()">Clear selection</button>
-      </div>
-
-      <div class="table-wrap">
-        <div class="table-head">
-          <div class="th" style="display:flex;align-items:center;justify-content:center;">
-            <input type="checkbox" class="row-cb" id="select-all" onchange="toggleSelectAll(this)">
-          </div>
-          <div class="th">Date</div>
-          <div class="th">Seller</div>
-          <div class="th">Link / Product</div>
-          <div class="th">Notes</div>
-          <div class="th">Status</div>
-          <div class="th">Confidence</div>
-          <div class="th">Actions</div>
+      <!-- Identifier tab panel -->
+      <div id="panel-identifier" class="view">
+        <div id="identifier-content">
+          <div class="empty" style="padding:4rem 1rem;">Select a listing and click Identify ↗ to open the comparison view.</div>
         </div>
-        <div id="log-body"><div class="empty">No listings scored yet.</div></div>
+      </div>
+
+    </div>
+
+    <!-- Product Archive view -->
+    <div class="view" id="view-product-archive">
+      <div class="archive-header">
+        <div>
+          <div class="archive-title">Product Archive</div>
+          <div class="archive-subtitle">Authentic product images organized by season — used for Identifier comparisons</div>
+        </div>
+        <button class="btn primary" onclick="document.getElementById('season-upload-input').click()">+ Add season</button>
+        <input type="file" id="season-upload-input" accept="image/*" multiple style="display:none" onchange="handleSeasonUpload(this)">
+      </div>
+
+      <div id="season-list">
+        <div class="archive-empty">
+          <div class="archive-empty-title">No seasons added yet</div>
+          Upload screenshots or images from a Supreme season to start building the archive.
+        </div>
       </div>
     </div>
 
-    <!-- Identifier tab -->
-    <div class="tab-panel" id="panel-identifier">
-      <div id="identifier-content">
-        <div class="identifier-empty">Select a listing from the Listings tab to open the Identifier view.</div>
+    <!-- Counterfeit Archive view -->
+    <div class="view" id="view-counterfeit-archive">
+      <div class="archive-header">
+        <div>
+          <div class="archive-title">Counterfeit Archive</div>
+          <div class="archive-subtitle">Flagged listing images stored for reference and AI agent training</div>
+        </div>
+        <button class="btn primary" onclick="document.getElementById('cf-upload-input').click()">+ Add image</button>
+        <input type="file" id="cf-upload-input" accept="image/*" multiple style="display:none" onchange="handleCFUpload(this)">
+      </div>
+
+      <div class="pill-row" id="cf-filter-row">
+        <button class="pill active" onclick="filterCF('All', this)">All</button>
+        <button class="pill" onclick="filterCF('Amazon', this)">Amazon</button>
+        <button class="pill" onclick="filterCF('eBay', this)">eBay</button>
+        <button class="pill" onclick="filterCF('SHEIN', this)">SHEIN</button>
+        <button class="pill" onclick="filterCF('DHgate', this)">DHgate</button>
+        <button class="pill" onclick="filterCF('Alibaba', this)">Alibaba</button>
+      </div>
+
+      <div id="cf-grid">
+        <div class="archive-empty">
+          <div class="archive-empty-title">No counterfeit images archived yet</div>
+          Images are added here when you archive a flagged listing, or upload directly.
+        </div>
       </div>
     </div>
 
@@ -389,12 +451,9 @@
 </div>
 
 <script>
-  let log = [];
-  let currentResult = null;
-  let activeFilter = 'All';
-  let settings = { autoReact: false };
-  let activeListingId = null;
-  let sidebarOpen = true;
+  let log = [], currentResult = null, activeFilter = 'All', settings = { autoReact: false };
+  let activeListingId = null, sidebarOpen = true, currentView = 'listings', activeTab = 'listings';
+  let seasons = [], cfItems = [], cfFilter = 'All';
 
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 
@@ -403,40 +462,56 @@
     document.getElementById('sidebar').classList.toggle('collapsed', !sidebarOpen);
   }
 
-  function toggleSection(id, btn) {
-    const items = document.getElementById('section-' + id);
-    const chevron = document.getElementById('chevron-' + id);
-    const isOpen = items.classList.toggle('open');
-    chevron.classList.toggle('open', isOpen);
+  function navigate(view) {
+    currentView = view;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    const tabsBar = document.getElementById('tabs-bar');
+    const exportBtn = document.getElementById('export-btn');
+
+    if (view === 'listings') {
+      document.getElementById('view-listings').classList.add('active');
+      document.getElementById('panel-listings').classList.add('active');
+      document.getElementById('panel-identifier').classList.remove('active');
+      tabsBar.style.display = '';
+      exportBtn.style.display = '';
+      document.getElementById('topbar-title').textContent = 'Listings';
+      activeTab = 'listings';
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('.tab').classList.add('active');
+    } else if (view === 'product-archive') {
+      document.getElementById('view-product-archive').classList.add('active');
+      tabsBar.style.display = 'none';
+      exportBtn.style.display = 'none';
+      document.getElementById('topbar-title').textContent = 'Product Archive';
+      renderSeasons();
+    } else if (view === 'counterfeit-archive') {
+      document.getElementById('view-counterfeit-archive').classList.add('active');
+      tabsBar.style.display = 'none';
+      exportBtn.style.display = 'none';
+      document.getElementById('topbar-title').textContent = 'Counterfeit Archive';
+      renderCFGrid();
+    }
+
+    document.getElementById('nav-' + view).classList.add('active');
   }
 
   function switchTab(name, el) {
     if (el.classList.contains('disabled')) return;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     el.classList.add('active');
-    document.getElementById('panel-' + name).classList.add('active');
+    activeTab = name;
+    document.getElementById('panel-listings').classList.toggle('active', name === 'listings');
+    document.getElementById('panel-identifier').classList.toggle('active', name === 'identifier');
   }
 
   function updateIdentifierTab() {
-    const fakeProduct = document.getElementById('c-fakeproduct').checked;
-    const otherSignals = ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep']
-      .some(id => document.getElementById(id).checked);
+    const fp = document.getElementById('c-fakeproduct').checked;
+    const others = ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep'].some(id => document.getElementById(id).checked);
     const tab = document.getElementById('tab-identifier');
-    if (fakeProduct && !otherSignals) {
-      tab.classList.add('disabled');
-      tab.classList.remove('active');
-      if (document.getElementById('panel-identifier').classList.contains('active')) {
-        switchTab('listings', document.querySelector('.tab'));
-      }
-    } else {
-      tab.classList.remove('disabled');
-    }
+    tab.classList.toggle('disabled', fp && !others);
   }
-
-  ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep'].forEach(id => {
-    document.getElementById(id).addEventListener('change', updateIdentifierTab);
-  });
 
   function scoreListing() {
     const price = parseFloat(document.getElementById('f-price').value) || 0;
@@ -453,7 +528,7 @@
     const extraNotes = document.getElementById('f-notes').value.trim();
     const product = document.getElementById('f-product').value.trim();
 
-    let score = 0; let reasons = [];
+    let score = 0, reasons = [];
     if (fakeProduct) { score += 4; reasons.push('product type never manufactured by Supreme'); }
     if (quality) { score += 3; reasons.push('visibly poor quality — logo, font, or colorway issues'); }
     if (collab) { score += 3; reasons.push('claims unofficial collaboration not on verified collab list'); }
@@ -462,18 +537,13 @@
       score += 2;
       reasons.push('price significantly below MSRP' + (price > 0 && msrp > 0 ? ' ($' + price.toFixed(2) + ' listed vs $' + msrp.toFixed(2) + ' MSRP)' : ''));
     }
-    if (highQty || qty > 50) {
-      score += 2;
-      reasons.push('quantity inconsistent with legitimate Supreme product' + (qty > 0 ? ' (' + qty + ' units listed)' : ''));
-    }
+    if (highQty || qty > 50) { score += 2; reasons.push('quantity inconsistent with legitimate Supreme product' + (qty > 0 ? ' (' + qty + ' units listed)' : '')); }
     if (parody) { score += 1; reasons.push('parody item — Supreme trademark referenced but not present on product'); }
     if (nameDrop) { score += 0.5; reasons.push('uses Supreme name in listing description only'); }
 
-    const isDefinitive = fakeProduct || collab;
-    const isHighConf = isDefinitive || (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)));
+    const isHighConf = fakeProduct || collab || (quality && (priceFlag || (price > 0 && msrp > 0 && price < msrp * 0.6)));
     const isLowConf = nameDrop && !quality && !collab && !fakeProduct && !highRep && !priceFlag && !highQty;
     const confidence = isHighConf ? 'High' : isLowConf ? 'Low' : 'Medium';
-
     const otherSignals = quality || priceFlag || collab || highQty || parody || nameDrop || highRep;
     const identifierEnabled = !fakeProduct || (fakeProduct && otherSignals);
 
@@ -482,36 +552,28 @@
       status = 'Pending Review';
       noteText = 'Parody item flagged. Recommend second review to determine enforcement or no action.' + (reasons.filter(r => !r.includes('parody')).length ? ' Additional signals: ' + reasons.filter(r => !r.includes('parody')).join('; ') + '.' : '');
     } else if (nameDrop && score < 1.5) {
-      status = 'No Action';
-      noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
+      status = 'No Action'; noteText = 'Listing uses Supreme name in description only — no trademark present on product. No infringement confirmed. No action required.';
     } else if (score >= 4) {
       if (settings.autoReact && confidence === 'High') {
-        status = 'Sent to React';
-        noteText = 'Counterfeit confirmed (auto-sent via High confidence setting). Signals: ' + reasons.join('; ') + '.';
+        status = 'Sent to React'; noteText = 'Counterfeit confirmed (auto-sent). Signals: ' + reasons.join('; ') + '.';
       } else {
-        status = 'Pending Review';
-        noteText = 'Counterfeit indicators detected. Signals: ' + reasons.join('; ') + '. Review and send to React if confirmed.';
+        status = 'Pending Review'; noteText = 'Counterfeit indicators detected. Signals: ' + reasons.join('; ') + '. Review and send to React if confirmed.';
       }
     } else if (score >= 1.5) {
-      status = 'Pending Review';
-      noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none flagged') + '. Requires review.';
+      status = 'Pending Review'; noteText = 'Insufficient signals for definitive call. Signals observed: ' + (reasons.length ? reasons.join('; ') : 'none') + '. Requires review.';
     } else {
-      status = 'No Action';
-      noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
+      status = 'No Action'; noteText = 'No counterfeit signals detected' + (product ? ' for "' + product + '"' : '') + '. No action required.';
     }
     if (extraNotes) noteText += ' Additional context: ' + extraNotes;
 
     currentResult = {
-      id: Date.now(),
-      date: document.getElementById('f-date').value,
+      id: Date.now(), date: document.getElementById('f-date').value,
       seller: document.getElementById('f-seller').value || '—',
       platform: document.getElementById('f-platform').value,
       link: document.getElementById('f-link').value || '—',
-      product: product || '—',
-      status, confidence, note: noteText,
+      product: product || '—', status, confidence, note: noteText,
       identifierEnabled, selected: false,
-      signals: { quality, priceFlag, collab, fakeProduct, highQty, parody, nameDrop, highRep },
-      price, msrp
+      signals: { quality, priceFlag, collab, fakeProduct, highQty, parody, nameDrop, highRep }, price, msrp
     };
 
     document.getElementById('r-status').textContent = status;
@@ -542,13 +604,14 @@
     if (!item || !item.identifierEnabled) return;
     activeListingId = id;
     renderIdentifier(item);
+    navigate('listings');
     const tabEl = document.getElementById('tab-identifier');
     tabEl.classList.remove('disabled');
     switchTab('identifier', tabEl);
   }
 
   function renderIdentifier(item) {
-    const priceDiff = item.msrp > 0 && item.price > 0 ? Math.round((1 - item.price / item.msrp) * 100) + '% below MSRP' : '—';
+    const priceDiff = item.msrp > 0 && item.price > 0 ? Math.round((1 - item.price / item.msrp) * 100) + '% below MSRP' : null;
     document.getElementById('identifier-content').innerHTML =
       '<div class="id-meta">' +
         '<div class="id-meta-item"><div class="id-meta-label">Seller</div><div class="id-meta-val">' + item.seller + '</div></div>' +
@@ -557,33 +620,28 @@
         '<div class="id-meta-item"><div class="id-meta-label">Confidence</div><div class="id-meta-val"><span class="badge ' + item.confidence.toLowerCase() + '">' + item.confidence + '</span></div></div>' +
       '</div>' +
       '<div class="compare-grid">' +
-        '<div class="img-card">' +
-          '<div class="img-card-header"><div class="img-card-title">Authentic product</div><div class="img-card-sub">Repository</div></div>' +
-          '<div class="img-area">Image will appear here once repository is populated</div>' +
-          '<div class="flag-strip">' +
-            '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">Source</div><div class="flag-val">Verified product archive</div></div>' +
-            (item.msrp > 0 ? '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">MSRP</div><div class="flag-val">$' + item.msrp.toFixed(2) + '</div></div>' : '') +
-          '</div>' +
-        '</div>' +
-        '<div class="img-card">' +
-          '<div class="img-card-header"><div class="img-card-title">Suspect listing</div><div class="img-card-sub">' + item.platform + (item.price > 0 ? ' — $' + item.price.toFixed(2) : '') + '</div></div>' +
-          '<div class="img-area">Upload or link suspect listing image</div>' +
-          '<div class="flag-strip">' +
-            (item.signals.quality ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Quality</div><div><div class="flag-val">Poor quality detected</div><div class="flag-note bad">Logo, font, or colorway issues</div></div></div>' : '') +
-            (item.signals.fakeProduct ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Product type</div><div><div class="flag-val">Never made by Supreme</div><div class="flag-note bad">Confirmed non-existent product line</div></div></div>' : '') +
-            (item.price > 0 && item.msrp > 0 ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Price</div><div><div class="flag-val">$' + item.price.toFixed(2) + '</div><div class="flag-note bad">' + priceDiff + '</div></div></div>' : '') +
-            (item.signals.collab ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Collaboration</div><div><div class="flag-val">Unofficial collab claimed</div></div></div>' : '') +
-            (!item.signals.quality && !item.signals.fakeProduct && !item.signals.collab ? '<div class="flag"><div class="flag-dot amber"></div><div class="flag-lbl">Signals</div><div class="flag-val">Review signals in listing tab</div></div>' : '') +
-          '</div>' +
-        '</div>' +
+        '<div class="img-card"><div class="img-card-header"><div class="img-card-title">Authentic product</div><div class="img-card-sub">Repository</div></div>' +
+        '<div class="img-area">Image appears here once archive is populated</div>' +
+        '<div class="flag-strip">' +
+          '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">Source</div><div class="flag-val">Verified product archive</div></div>' +
+          (item.msrp > 0 ? '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">MSRP</div><div class="flag-val">$' + item.msrp.toFixed(2) + '</div></div>' : '') +
+        '</div></div>' +
+        '<div class="img-card"><div class="img-card-header"><div class="img-card-title">Suspect listing</div><div class="img-card-sub">' + item.platform + (item.price > 0 ? ' — $' + item.price.toFixed(2) : '') + '</div></div>' +
+        '<div class="img-area">Upload or link suspect listing image</div>' +
+        '<div class="flag-strip">' +
+          (item.signals.quality ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Quality</div><div><div class="flag-val">Poor quality detected</div><div class="flag-note bad">Logo, font, or colorway issues</div></div></div>' : '') +
+          (item.signals.fakeProduct ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Product type</div><div><div class="flag-val">Never made by Supreme</div></div></div>' : '') +
+          (priceDiff ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Price</div><div><div class="flag-val">$' + item.price.toFixed(2) + '</div><div class="flag-note bad">' + priceDiff + '</div></div></div>' : '') +
+          (item.signals.collab ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Collaboration</div><div class="flag-val">Unofficial collab claimed</div></div>' : '') +
+          (!item.signals.quality && !item.signals.fakeProduct && !priceDiff && !item.signals.collab ? '<div class="flag"><div class="flag-dot amber"></div><div class="flag-lbl">Signals</div><div class="flag-val">Review signals in Listings tab</div></div>' : '') +
+        '</div></div>' +
       '</div>' +
       '<div class="section-label">Verdict</div>' +
-      '<div class="verdict-row">' +
-        '<div class="verdict-label">Does this listing match authentic product?</div>' +
+      '<div class="verdict-row"><div class="verdict-label">Does this listing match authentic product?</div>' +
         '<div class="verdict-opts">' +
-          '<button class="verdict-btn active-no" onclick="setVerdict(' + item.id + ', \'no\', this)">No match — counterfeit</button>' +
-          '<button class="verdict-btn" onclick="setVerdict(' + item.id + ', \'inc\', this)">Inconclusive</button>' +
-          '<button class="verdict-btn" onclick="setVerdict(' + item.id + ', \'yes\', this)">Match — authentic</button>' +
+          '<button class="verdict-btn active-no" onclick="setVerdict(this, \'no\')">No match — counterfeit</button>' +
+          '<button class="verdict-btn" onclick="setVerdict(this, \'inc\')">Inconclusive</button>' +
+          '<button class="verdict-btn" onclick="setVerdict(this, \'yes\')">Match — authentic</button>' +
         '</div>' +
       '</div>' +
       '<div class="btn-row">' +
@@ -593,7 +651,7 @@
       '</div>';
   }
 
-  function setVerdict(id, v, el) {
+  function setVerdict(el, v) {
     el.closest('.verdict-opts').querySelectorAll('.verdict-btn').forEach(b => b.className = 'verdict-btn');
     el.classList.add('active-' + v);
   }
@@ -601,7 +659,7 @@
   function updateStatus(id, newStatus) {
     const item = log.find(l => l.id === id);
     if (item) { item.status = newStatus; updateStats(); renderLog(); }
-    if (activeListingId === id) renderIdentifier(item);
+    if (activeListingId === id && item) renderIdentifier(item);
   }
 
   function toggleSelect(id, checked) {
@@ -650,10 +708,6 @@
       const sc = statusClass(l.status);
       const cc = l.confidence.toLowerCase();
       const linkHtml = l.link !== '—' ? '<a href="' + l.link + '" target="_blank">' + l.platform + ' ↗</a>' : '—';
-      const isPending = l.status === 'Pending Review';
-      const isComplete = l.status === 'Review Complete';
-      const isReact = l.status === 'Sent to React';
-      const canIdentify = l.identifierEnabled;
       return '<div class="table-row' + (l.selected ? ' selected' : '') + '">' +
         '<div class="td center"><input type="checkbox" class="row-cb" ' + (l.selected ? 'checked' : '') + ' onchange="toggleSelect(' + l.id + ', this.checked)"></div>' +
         '<div class="td muted">' + l.date + '</div>' +
@@ -663,10 +717,10 @@
         '<div class="td"><span class="badge ' + sc + '">' + l.status + '</span></div>' +
         '<div class="td"><span class="badge ' + cc + '">' + l.confidence + '</span></div>' +
         '<div class="td"><div class="row-actions">' +
-          (!isReact ? '<button class="btn sm danger" onclick="updateStatus(' + l.id + ', \'Sent to React\')">Send to React</button>' : '') +
-          (isPending ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Review Complete\')">Mark Complete</button>' : '') +
-          (isComplete ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Pending Review\')">Reopen</button>' : '') +
-          (canIdentify ? '<button class="btn sm" onclick="openIdentifier(' + l.id + ')">Identify ↗</button>' : '<button class="btn sm" style="opacity:0.35;cursor:not-allowed" disabled>Identify</button>') +
+          (l.status !== 'Sent to React' ? '<button class="btn sm danger" onclick="updateStatus(' + l.id + ', \'Sent to React\')">Send to React</button>' : '') +
+          (l.status === 'Pending Review' ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Review Complete\')">Mark Complete</button>' : '') +
+          (l.status === 'Review Complete' ? '<button class="btn sm" onclick="updateStatus(' + l.id + ', \'Pending Review\')">Reopen</button>' : '') +
+          (l.identifierEnabled ? '<button class="btn sm" onclick="openIdentifier(' + l.id + ')">Identify ↗</button>' : '<button class="btn sm" style="opacity:0.35;cursor:not-allowed" disabled>Identify</button>') +
         '</div></div>' +
       '</div>';
     }).join('');
@@ -684,8 +738,7 @@
     ['f-seller','f-link','f-product','f-price','f-msrp','f-qty','f-notes'].forEach(id => document.getElementById(id).value = '');
     ['c-quality','c-price','c-collab','c-fakeproduct','c-highqty','c-parody','c-nameDrop','c-highRep'].forEach(id => document.getElementById(id).checked = false);
     document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-    currentResult = null;
-    updateIdentifierTab();
+    currentResult = null; updateIdentifierTab();
   }
 
   function exportCSV() {
@@ -693,10 +746,87 @@
     const rows = [['Date','Seller','Platform','Link','Product','Status','Confidence','Notes']];
     log.forEach(l => rows.push([l.date, l.seller, l.platform, l.link, l.product, l.status, l.confidence, '"' + l.note.replace(/"/g,'""') + '"']));
     const csv = rows.map(r => r.join(',')).join('\n');
-    const a = document.createElement('a');
-    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    a.download = 'brand_protection_log.csv';
-    a.click();
+    const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'brand_protection_log.csv'; a.click();
+  }
+
+  /* Product Archive */
+  function handleSeasonUpload(input) {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    const seasonName = prompt('Season name (e.g. Spring/Summer 2025):');
+    if (!seasonName) return;
+    const season = { id: Date.now(), name: seasonName, products: [] };
+    files.forEach(f => {
+      const url = URL.createObjectURL(f);
+      season.products.push({ id: Date.now() + Math.random(), name: f.name.replace(/\.[^/.]+$/, ''), imgUrl: url, msrp: '' });
+    });
+    seasons.push(season);
+    renderSeasons();
+    input.value = '';
+  }
+
+  function renderSeasons() {
+    const el = document.getElementById('season-list');
+    if (!seasons.length) {
+      el.innerHTML = '<div class="archive-empty"><div class="archive-empty-title">No seasons added yet</div>Upload screenshots or images from a Supreme season to start building the archive.</div>';
+      return;
+    }
+    el.innerHTML = seasons.map(s =>
+      '<div style="margin-bottom:2rem;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">' +
+          '<div style="font-size:15px;font-weight:500;">' + s.name + '</div>' +
+          '<div style="font-size:12px;color:var(--text-secondary)">' + s.products.length + ' items</div>' +
+        '</div>' +
+        '<div class="product-grid">' +
+          s.products.map(p =>
+            '<div class="product-card">' +
+              '<div class="product-img"><img src="' + p.imgUrl + '" style="width:100%;height:100%;object-fit:cover;"></div>' +
+              '<div class="product-info"><div class="product-name">' + p.name + '</div><div class="product-msrp">MSRP: <input style="width:80px;padding:2px 6px;font-size:11px;border:0.5px solid var(--border-mid);border-radius:4px;background:var(--bg-secondary);color:var(--text)" placeholder="$0.00" value="' + p.msrp + '" onchange="updateMSRP(' + s.id + ',' + p.id + ',this.value)"></div></div>' +
+            '</div>'
+          ).join('') +
+        '</div>' +
+      '</div>'
+    ).join('');
+  }
+
+  function updateMSRP(sid, pid, val) {
+    const s = seasons.find(s => s.id === sid);
+    if (s) { const p = s.products.find(p => p.id === pid); if (p) p.msrp = val; }
+  }
+
+  /* Counterfeit Archive */
+  function handleCFUpload(input) {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    const platform = prompt('Platform this image is from (e.g. eBay, SHEIN):') || 'Unknown';
+    const seller = prompt('Seller name (optional):') || '—';
+    files.forEach(f => {
+      cfItems.push({ id: Date.now() + Math.random(), imgUrl: URL.createObjectURL(f), platform, seller, date: new Date().toISOString().split('T')[0] });
+    });
+    renderCFGrid();
+    input.value = '';
+  }
+
+  function filterCF(platform, el) {
+    cfFilter = platform;
+    document.querySelectorAll('#cf-filter-row .pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    renderCFGrid();
+  }
+
+  function renderCFGrid() {
+    const el = document.getElementById('cf-grid');
+    const filtered = cfFilter === 'All' ? cfItems : cfItems.filter(i => i.platform === cfFilter);
+    if (!filtered.length) {
+      el.innerHTML = '<div class="archive-empty"><div class="archive-empty-title">No counterfeit images archived yet</div>Images are added here when you archive a flagged listing, or upload directly.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="counterfeit-grid">' + filtered.map(i =>
+      '<div class="cf-card">' +
+        '<div class="cf-img"><img src="' + i.imgUrl + '" style="width:100%;height:100%;object-fit:cover;"></div>' +
+        '<div class="cf-info"><div class="cf-seller">' + i.seller + '</div><div class="cf-meta">' + i.platform + ' · ' + i.date + '</div><span class="cf-tag">Flagged</span></div>' +
+      '</div>'
+    ).join('') + '</div>';
   }
 
   function openSettings() { document.getElementById('settings-overlay').classList.add('show'); }
