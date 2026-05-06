@@ -11,8 +11,8 @@
       --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-tertiary: #ebebeb;
       --text: #1a1a1a; --text-secondary: #666660;
       --border: rgba(0,0,0,0.12); --border-mid: rgba(0,0,0,0.2);
-      --radius: 8px; --radius-lg: 12px; --navy: #1A1A2E; --red: #CC2222;
-      --sidebar-w: 210px;
+      --radius: 8px; --radius-lg: 12px; --navy: #1A1A2E;
+      --red: #CC2222; --sidebar-w: 220px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -24,15 +24,15 @@
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text); min-height: 100vh; display: flex; }
 
     /* ── Sidebar ── */
-    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--bg); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.22s ease; overflow: hidden; position: sticky; top: 0; height: 100vh; }
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--bg); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.22s ease; overflow: hidden; }
     .sidebar.collapsed { width: 0; }
-    .sidebar-inner { width: var(--sidebar-w); padding: 1rem 0; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+    .sidebar-inner { width: var(--sidebar-w); padding: 1rem 0; display: flex; flex-direction: column; height: 100%; }
     .sidebar-brand { padding: 0 1rem 1rem; border-bottom: 0.5px solid var(--border); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
     .sidebar-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--navy); flex-shrink: 0; }
     .sidebar-brand-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
     .nav-group { margin-bottom: 2px; }
-    .nav-group-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 1rem 4px; white-space: nowrap; }
-    .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 1rem; font-size: 13px; color: var(--text-secondary); cursor: pointer; white-space: nowrap; border: none; background: none; font-family: inherit; width: 100%; text-align: left; transition: background 0.12s; }
+    .nav-group-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 1rem 4px; }
+    .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 1rem; font-size: 13px; color: var(--text-secondary); cursor: pointer; white-space: nowrap; border: none; background: none; font-family: inherit; width: 100%; text-align: left; }
     .nav-item:hover { background: var(--bg-secondary); color: var(--text); }
     .nav-item.active { background: var(--bg-secondary); color: var(--text); font-weight: 500; }
     .nav-icon { font-size: 13px; flex-shrink: 0; }
@@ -40,27 +40,27 @@
     .sidebar-footer-label { font-size: 11px; color: var(--text-secondary); }
 
     /* ── Main ── */
-    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
-    .topbar { display: flex; align-items: center; gap: 10px; padding: 11px 1.5rem; background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10; }
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .topbar { display: flex; align-items: center; gap: 10px; padding: 11px 1.5rem; background: var(--bg); border-bottom: 0.5px solid var(--border); }
     .collapse-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--border-mid); border-radius: var(--radius); background: var(--bg-secondary); cursor: pointer; font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
     .collapse-btn:hover { background: var(--bg-tertiary); }
     .topbar-title { font-size: 15px; font-weight: 500; flex: 1; }
     .topbar-actions { display: flex; gap: 8px; }
 
     /* ── Tabs ── */
-    .tabs-bar { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg); padding: 0 1.5rem; position: sticky; top: 50px; z-index: 9; }
-    .tab { font-size: 13px; padding: 10px 16px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; white-space: nowrap; transition: color 0.12s; }
+    .tabs-bar { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg); padding: 0 1.5rem; }
+    .tab { font-size: 13px; padding: 10px 16px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; white-space: nowrap; }
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--text); font-weight: 500; border-bottom: 2px solid var(--navy); }
     .tab.disabled { opacity: 0.38; cursor: not-allowed; pointer-events: none; }
 
     /* ── Page ── */
-    .page { padding: 1.5rem; flex: 1; }
+    .page { padding: 1.5rem; flex: 1; overflow-y: auto; }
     .view { display: none; }
     .view.active { display: block; }
 
     /* ── Buttons ── */
-    .btn { padding: 8px 16px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: background 0.12s; }
+    .btn { padding: 8px 16px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-mid); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
     .btn:hover { background: var(--bg-tertiary); }
     .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
     .btn.primary:hover { opacity: 0.88; }
@@ -148,7 +148,7 @@
     .img-card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
     .img-card-title { font-size: 12px; font-weight: 500; }
     .img-card-sub { font-size: 11px; color: var(--text-secondary); }
-    .img-area { height: 200px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary); }
+    .img-area { height: 180px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary); }
     .flag-strip { padding: 8px 14px; }
     .flag { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
     .flag:last-child { border-bottom: none; }
@@ -161,66 +161,67 @@
     .verdict-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-secondary); border-radius: var(--radius); margin-bottom: 1rem; flex-wrap: wrap; }
     .verdict-label { font-size: 13px; color: var(--text-secondary); }
     .verdict-opts { display: flex; gap: 8px; flex-wrap: wrap; }
-    .verdict-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); cursor: pointer; font-family: inherit; color: var(--text); }
+    .verdict-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); cursor: pointer; font-family: inherit; }
     .verdict-btn.active-no { background: #F7C1C1; color: #791F1F; border-color: #F7C1C1; font-weight: 500; }
     .verdict-btn.active-inc { background: #FAC775; color: #633806; border-color: #FAC775; font-weight: 500; }
     .verdict-btn.active-yes { background: #C0DD97; color: #27500A; border-color: #C0DD97; font-weight: 500; }
 
     /* ── Archive pages ── */
-    .archive-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
-    .archive-title-block .season-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); font-weight: 500; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
-    .archive-title-block .archive-title { font-family: 'Instrument Serif', serif; font-size: 26px; line-height: 1; color: var(--text); }
-    .archive-title-block .archive-sub { font-size: 11px; color: var(--text-secondary); margin-top: 4px; font-family: 'DM Mono', monospace; }
-    .archive-count-block { text-align: right; font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; }
-    .archive-count-block .count-num { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--text); display: block; }
+    .archive-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 1.25rem; }
+    .archive-header-left { display: flex; flex-direction: column; gap: 3px; }
+    .archive-season-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); font-weight: 500; font-family: 'DM Mono', monospace; }
+    .archive-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 26px; font-weight: 500; line-height: 1; color: var(--text); }
+    .archive-sub { font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; }
+    .archive-header-right { text-align: right; font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; }
+    .archive-count { font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; color: var(--text); display: block; }
 
-    /* Archive filter bar */
-    .archive-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .af { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.05em; padding: 4px 13px; border: 0.5px solid var(--border-mid); border-radius: 20px; background: transparent; color: var(--text-secondary); cursor: pointer; }
-    .af:hover { background: var(--bg); color: var(--text); }
+    /* Filter pills */
+    .archive-filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .af { font-size: 11px; padding: 4px 13px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-family: inherit; }
+    .af:hover { background: var(--bg-secondary); color: var(--text); }
     .af.active { background: var(--navy); color: #fff; border-color: var(--navy); }
 
     /* Product groups */
     .product-group { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 0.5px solid var(--border); }
     .product-group:last-child { border-bottom: none; margin-bottom: 0; }
     .product-group.hidden { display: none; }
-    .group-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; gap: 10px; flex-wrap: wrap; }
-    .group-name { font-family: 'Instrument Serif', serif; font-size: 17px; color: var(--text); }
-    .group-collab { font-size: 10px; color: var(--red); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 8px; font-family: 'DM Mono', monospace; }
-    .group-count { font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; white-space: nowrap; }
+    .group-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+    .group-name { font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; color: var(--text); }
+    .group-collab { font-size: 10px; color: var(--red); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 10px; font-family: 'DM Mono', monospace; }
+    .group-count { font-size: 11px; color: var(--text-secondary); font-family: 'DM Mono', monospace; }
 
     /* Image row */
     .img-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; align-items: flex-start; }
     .img-row::-webkit-scrollbar { height: 3px; }
-    .img-row::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+    .img-row::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     .img-item { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
     .img-wrap { width: 160px; height: 160px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: zoom-in; transition: border-color 0.15s; }
     .img-wrap:hover { border-color: var(--navy); }
     .img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
-    .img-wrap.placeholder { background: var(--bg-secondary); }
     .img-item.wide .img-wrap { width: 220px; }
-    .img-caption { font-size: 11px; color: var(--text-secondary); max-width: 160px; line-height: 1.4; font-family: 'DM Mono', monospace; }
-    .img-caption .color { color: var(--text); font-weight: 500; }
-    .img-caption .angle { color: var(--text-secondary); }
+    .img-caption { font-size: 11px; color: var(--text-secondary); line-height: 1.4; max-width: 160px; font-family: 'DM Mono', monospace; }
+    .img-caption .clr { color: var(--text); font-weight: 500; }
+    .img-caption .ang { color: var(--text-secondary); }
 
     /* Counterfeit archive */
-    .cf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+    .cf-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .cf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
     .cf-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .cf-img { height: 140px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-secondary); }
+    .cf-img { height: 130px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-secondary); }
     .cf-img img { width: 100%; height: 100%; object-fit: cover; }
     .cf-info { padding: 10px 12px; }
     .cf-seller { font-size: 12px; font-weight: 500; }
     .cf-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-    .cf-tag { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: #F7C1C1; color: #791F1F; }
+    .cf-tag { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: #F7C1C1; color: #791F1F; }
     .archive-empty { text-align: center; padding: 4rem 1rem; color: var(--text-secondary); font-size: 13px; }
     .archive-empty-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
 
     /* Lightbox */
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200; align-items: center; justify-content: center; }
     .lightbox.show { display: flex; }
-    .lightbox img { max-width: 82vw; max-height: 86vh; object-fit: contain; border-radius: var(--radius); }
+    .lightbox img { max-width: 80vw; max-height: 85vh; object-fit: contain; border-radius: var(--radius); }
     .lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 22px; color: #fff; cursor: pointer; background: none; border: none; }
-    .lightbox-caption { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.65); text-align: center; white-space: nowrap; }
+    .lightbox-caption { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(255,255,255,0.65); text-align: center; white-space: nowrap; font-family: 'DM Mono', monospace; }
 
     /* Settings */
     .settings-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
@@ -238,14 +239,12 @@
     .toggle-slider:before { content: ''; position: absolute; height: 15px; width: 15px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: transform 0.2s; }
     .toggle input:checked + .toggle-slider:before { transform: translateX(17px); }
 
-    @media (max-width: 768px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-grid.two { grid-template-columns: 1fr; }
-      .table-head, .table-row { grid-template-columns: 1fr; }
-      .id-meta { grid-template-columns: repeat(2, 1fr); }
-      .compare-grid { grid-template-columns: 1fr; }
-    }
+    /* GitHub upload notice */
+    .github-notice { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 12px; }
+    .github-notice-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .github-notice-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+    .github-notice-sub { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .github-notice code { background: var(--bg-secondary); padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   </style>
 </head>
 <body>
@@ -289,9 +288,9 @@
     </div>
   </div>
 
-  <!-- Tabs (listings only) -->
+  <!-- Tabs — only shown on listings view -->
   <div class="tabs-bar" id="tabs-bar">
-    <button class="tab active" id="tab-listings" onclick="switchTab('listings', this)">Listings</button>
+    <button class="tab active" onclick="switchTab('listings', this)">Listings</button>
     <button class="tab disabled" id="tab-identifier" onclick="switchTab('identifier', this)">Identifier</button>
   </div>
 
@@ -302,7 +301,7 @@
     ══════════════════════════════════════ -->
     <div class="view active" id="view-listings">
 
-      <!-- Listings tab panel -->
+      <!-- Listings tab -->
       <div id="panel-listings" class="view active">
         <div class="stats">
           <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
@@ -400,29 +399,35 @@
         </div>
       </div>
 
-      <!-- Identifier tab panel -->
+      <!-- Identifier tab -->
       <div id="panel-identifier" class="view">
         <div id="identifier-content">
           <div class="empty" style="padding:4rem 1rem;">Select a listing and click Identify ↗ to open the comparison view.</div>
         </div>
       </div>
-
     </div>
 
     <!-- ══════════════════════════════════════
          PRODUCT ARCHIVE VIEW
     ══════════════════════════════════════ -->
     <div class="view" id="view-product-archive">
-
       <div class="archive-header">
-        <div class="archive-title-block">
-          <div class="season-tag">Spring / Summer 2026</div>
+        <div class="archive-header-left">
+          <div class="archive-season-tag">Spring / Summer 2026</div>
           <div class="archive-title">Product Archive</div>
           <div class="archive-sub">Supreme · Authentic reference images</div>
         </div>
-        <div class="archive-count-block">
-          <span class="count-num" id="archive-group-count">22</span>
+        <div class="archive-header-right">
+          <span class="archive-count" id="pa-count">22</span>
           products
+        </div>
+      </div>
+
+      <div class="github-notice">
+        <div class="github-notice-icon">📁</div>
+        <div>
+          <div class="github-notice-title">Adding images</div>
+          <div class="github-notice-sub">Upload product images to your GitHub repository under <code>images/SS26/</code> using the same naming format: <code>Product_Name_-_Color_(Angle).webp</code>. They will appear automatically once deployed.</div>
         </div>
       </div>
 
@@ -437,240 +442,9 @@
         <button class="af" onclick="filterArchive('collab', this)">Collaborations</button>
       </div>
 
-      <!-- ARABIC BOX LOGO TEE -->
-      <div class="product-group" data-cat="tees">
-        <div class="group-header">
-          <span class="group-name">Arabic Box Logo Tee</span>
-          <span class="group-count">6 colorways</span>
-        </div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_Black.webp','Arabic Box Logo Tee — Black')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_Black.webp" alt="Black" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_Blue.webp','Arabic Box Logo Tee — Blue')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_Blue.webp" alt="Blue" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_Camo.webp','Arabic Box Logo Tee — Camo')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_Camo.webp" alt="Camo" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Camo</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_Grey.webp','Arabic Box Logo Tee — Grey')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_Grey.webp" alt="Grey" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Grey</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_Pink.webp','Arabic Box Logo Tee — Pink')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_Pink.webp" alt="Pink" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Pink</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Arabic_Box_Logo_Tee_-_White.webp','Arabic Box Logo Tee — White')"><img src="images/SS26/Arabic_Box_Logo_Tee_-_White.webp" alt="White" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span></div></div>
-        </div>
+      <div id="product-archive-content">
+        <div class="archive-empty"><div class="archive-empty-title">No products added yet</div>Upload images to images/SS26/ in GitHub to populate this archive.</div>
       </div>
-
-      <!-- EVOLUTION TEE -->
-      <div class="product-group" data-cat="tees">
-        <div class="group-header"><span class="group-name">Evolution Tee</span><span class="group-count">5 colorways</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Evolution_Tee_-_Black.webp','Evolution Tee — Black')"><img src="images/SS26/Evolution_Tee_-_Black.webp" alt="Black" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Evolution_Tee_-_Blue.webp','Evolution Tee — Blue')"><img src="images/SS26/Evolution_Tee_-_Blue.webp" alt="Blue" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Evolution_Tee_-_Green.webp','Evolution Tee — Green')"><img src="images/SS26/Evolution_Tee_-_Green.webp" alt="Green" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Green</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Evolution_Tee_-_Pink.webp','Evolution Tee — Pink')"><img src="images/SS26/Evolution_Tee_-_Pink.webp" alt="Pink" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Pink</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Evolution_Tee_-_White.webp','Evolution Tee — White')"><img src="images/SS26/Evolution_Tee_-_White.webp" alt="White" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span></div></div>
-        </div>
-      </div>
-
-      <!-- SATIN APPLIQUE HOODED SWEATSHIRT -->
-      <div class="product-group" data-cat="hoodies">
-        <div class="group-header"><span class="group-name">Satin Appliqué Hooded Sweatshirt</span><span class="group-count">4 colorways · front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Black__Front_.webp','Satin Appliqué Hooded Sweatshirt — Black Front')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Black__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Black__Back_.webp','Satin Appliqué Hooded Sweatshirt — Black Back')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Blue__Front_.webp','Satin Appliqué Hooded Sweatshirt — Blue Front')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Blue__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Blue__Back_.webp','Satin Appliqué Hooded Sweatshirt — Blue Back')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Blue__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Came__Front_.webp','Satin Appliqué Hooded Sweatshirt — Camo Front')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Came__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Camo</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo__Back_.webp','Satin Appliqué Hooded Sweatshirt — Camo Back')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Camo</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo_White__Front_.jpg','Satin Appliqué Hooded Sweatshirt — Camo White Front')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo_White__Front_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Camo White</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo_White__Back_.webp','Satin Appliqué Hooded Sweatshirt — Camo White Back')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Camo_White__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Camo White</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Grey__Front_.webp','Satin Appliqué Hooded Sweatshirt — Grey Front')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Grey__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Grey</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Grey__Back_.webp','Satin Appliqué Hooded Sweatshirt — Grey Back')"><img src="images/SS26/Satin_Applique__Hooded_Sweatshirt_-_Grey__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Grey</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- FLAG DOUBLE KNEE PAINTER PANT -->
-      <div class="product-group" data-cat="pants">
-        <div class="group-header"><span class="group-name">Flag Double Knee Painter Pant</span><span class="group-count">2 colorways · front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Flag_Double_Knee_Painter_Pant_-_Black__Front_.webp','Flag Double Knee Painter Pant — Black Front')"><img src="images/SS26/Flag_Double_Knee_Painter_Pant_-_Black__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Flag_Double_Knee_Painter_Pant_-_Black__Back_.webp','Flag Double Knee Painter Pant — Black Back')"><img src="images/SS26/Flag_Double_Knee_Painter_Pant_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Flag_Double_Knee_Painter_Pant_-_Front__Stripes_.webp','Flag Double Knee Painter Pant — Stripes Front')"><img src="images/SS26/Flag_Double_Knee_Painter_Pant_-_Front__Stripes_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Stripes</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Flag_Double_Knee_Painter_Pant_-_Stripes__Back_.webp','Flag Double Knee Painter Pant — Stripes Back')"><img src="images/SS26/Flag_Double_Knee_Painter_Pant_-_Stripes__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Stripes</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- GORE-TEX GHOSTFACE SHELL JACKET -->
-      <div class="product-group" data-cat="jackets collab">
-        <div class="group-header"><div><span class="group-name">GORE-TEX Ghostface® Shell Jacket</span><span class="group-collab">Collab</span></div><span class="group-count">2 colorways · 3 angles</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Front_.webp','GORE-TEX Ghostface Shell Jacket — Black Front')"><img src="images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Back_.webp','GORE-TEX Ghostface Shell Jacket — Black Back')"><img src="images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Open_.webp','GORE-TEX Ghostface Shell Jacket — Black Open')"><img src="images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Black__Open_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Open</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Red__Front_.webp','GORE-TEX Ghostface Shell Jacket — Red Front')"><img src="images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Red__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Red__Back_.webp','GORE-TEX Ghostface Shell Jacket — Red Back')"><img src="images/SS26/GORE-TEX_Ghostface__Shell_Jacket_-_Red__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- NEW ERA GHOSTFACE BEANIE -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">New Era® Ghostface® Beanie</span><span class="group-collab">Collab</span></div><span class="group-count">3 colorways · front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Black__Front_.webp','New Era Ghostface Beanie — Black Front')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Black__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Black__Back_.webp','New Era Ghostface Beanie — Black Back')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Blue__Front_.webp','New Era Ghostface Beanie — Blue Front')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Blue__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Blue__Back_.webp','New Era Ghostface Beanie — Blue Back')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Blue__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Red__Front_.webp','New Era Ghostface Beanie — Red Front')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Red__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/New_Era__Ghostface__Beanie_-_Red__Back_.webp','New Era Ghostface Beanie — Red Back')"><img src="images/SS26/New_Era__Ghostface__Beanie_-_Red__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- SUPREME BACKPACK -->
-      <div class="product-group" data-cat="accessories">
-        <div class="group-header"><span class="group-name">Supreme Backpack</span><span class="group-count">4 colorways · closed &amp; open</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Beige__Closed_.webp','Supreme Backpack — Beige Closed')"><img src="images/SS26/Supreme_Backpack_-_Beige__Closed_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Beige</span> <span class="angle">Closed</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Beige__Opened_.webp','Supreme Backpack — Beige Open')"><img src="images/SS26/Supreme_Backpack_-_Beige__Opened_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Beige</span> <span class="angle">Open</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Black__Closed_.webp','Supreme Backpack — Black Closed')"><img src="images/SS26/Supreme_Backpack_-_Black__Closed_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Closed</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Black__Opened_.jpg','Supreme Backpack — Black Open')"><img src="images/SS26/Supreme_Backpack_-_Black__Opened_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Open</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Purple__Closed_.webp','Supreme Backpack — Purple Closed')"><img src="images/SS26/Supreme_Backpack_-_Purple__Closed_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Purple</span> <span class="angle">Closed</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Purple__Open_.webp','Supreme Backpack — Purple Open')"><img src="images/SS26/Supreme_Backpack_-_Purple__Open_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Purple</span> <span class="angle">Open</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_Backpack_-_Red_Camo__Closed_.webp','Supreme Backpack — Red Camo')"><img src="images/SS26/Supreme_Backpack_-_Red_Camo__Closed_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red Camo</span></div></div>
-        </div>
-      </div>
-
-      <!-- SUPREME ATM -->
-      <div class="product-group" data-cat="accessories">
-        <div class="group-header"><span class="group-name">Supreme ATM</span><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme_ATM.webp','Supreme ATM')"><img src="images/SS26/Supreme_ATM.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span></div></div>
-        </div>
-      </div>
-
-      <!-- DUALIT TOASTER -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / Dualit® 4-Slice Toaster</span><span class="group-collab">Collab</span></div><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Dualit__4-Slice_Toaster.webp','Supreme / Dualit 4-Slice Toaster')"><img src="images/SS26/Supreme__Dualit__4-Slice_Toaster.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Stainless Steel</span></div></div>
-        </div>
-      </div>
-
-      <!-- FIJI SOCCER JERSEY -->
-      <div class="product-group" data-cat="tees collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / FIJI® Soccer Jersey</span><span class="group-collab">Collab</span></div><span class="group-count">Front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__FIJI__Soccer_Jersey_-_Front.webp','FIJI Soccer Jersey — Front')"><img src="images/SS26/Supreme__FIJI__Soccer_Jersey_-_Front.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__FIJI__Soccer_Jersey_-_Back.webp','FIJI Soccer Jersey — Back')"><img src="images/SS26/Supreme__FIJI__Soccer_Jersey_-_Back.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- HANES SPIDER-MAN BOXER BRIEFS -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / Hanes® Spider-Man Boxer Briefs (2 Pack)</span><span class="group-collab">Collab</span></div><span class="group-count">3 colorways</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_Black.webp','Spider-Man Boxer Briefs — Black')"><img src="images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_Black.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_Red.webp','Spider-Man Boxer Briefs — Red')"><img src="images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_Red.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_White.webp','Spider-Man Boxer Briefs — White')"><img src="images/SS26/Supreme__Hanes__Spider-Man_Boxer_Briefs__2_Pack__-_White.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span></div></div>
-        </div>
-      </div>
-
-      <!-- MM6 BOX LOGO ZIP UP -->
-      <div class="product-group" data-cat="hoodies collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / MM6 Maison Margiela Box Logo Zip Up Hooded Sweatshirt</span><span class="group-collab">Collab</span></div><span class="group-count">3 colorways</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Black.webp','MM6 Box Logo Zip Up — Black Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Black.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Black_Back.webp','MM6 Box Logo Zip Up — Black Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Black_Back.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Blue.webp','MM6 Box Logo Zip Up — Blue')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Blue.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_White.webp','MM6 Box Logo Zip Up — White')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_White.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span></div></div>
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Image_1.webp','MM6 Box Logo Zip Up — All Colors')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Box_Logo_Zip_Up_Hooded_Sweatshirt_-_Image_1.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">All colorways</span></div></div>
-        </div>
-      </div>
-
-      <!-- MM6 COTTON FOOTBALL JERSEY -->
-      <div class="product-group" data-cat="tees collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / MM6 Maison Margiela Cotton Football Jersey</span><span class="group-collab">Collab</span></div><span class="group-count">3 colorways · front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Black__Front_.webp','MM6 Football Jersey — Black Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Black__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Black__Back_.jpg','MM6 Football Jersey — Black Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Black__Back_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Green__Front_.webp','MM6 Football Jersey — Green Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Green__Front_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Green</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Green__Back_.jpg','MM6 Football Jersey — Green Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_Green__Back_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Green</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_White__Front_.jpg','MM6 Football Jersey — White Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_White__Front_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_White__Back_.webp','MM6 Football Jersey — White Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Cotton_Football_Jersey_-_White__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- MM6 EAGLE ZIP UP -->
-      <div class="product-group" data-cat="hoodies collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / MM6 Maison Margiela Eagle Zip Up Hooded Sweatshirt</span><span class="group-collab">Collab</span></div><span class="group-count">3 colorways · front &amp; back</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Black__Front_.jpg','MM6 Eagle Zip Up — Black Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Black__Front_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Black__Back_.webp','MM6 Eagle Zip Up — Black Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Red__Front_.jpg','MM6 Eagle Zip Up — Red Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Red__Front_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Red__Back_.jpg','MM6 Eagle Zip Up — Red Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_Red__Back_.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red</span> <span class="angle">Back</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_White.jpg','MM6 Eagle Zip Up — White Front')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_White.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span> <span class="angle">Front</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_White__Back_.webp','MM6 Eagle Zip Up — White Back')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Eagle_Zip_Up_Hooded_Sweatshirt_-_White__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">White</span> <span class="angle">Back</span></div></div>
-        </div>
-      </div>
-
-      <!-- MM6 SPLIT S/S TOP -->
-      <div class="product-group" data-cat="tees collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / MM6 Maison Margiela Split S/S Top</span><span class="group-collab">Collab</span></div><span class="group-count">2 colorways</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Split_S_S_Top_-_Black.webp','MM6 Split S/S Top — Black')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Split_S_S_Top_-_Black.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span></div></div>
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Split_S_S_Top_-_Blue.webp','MM6 Split S/S Top — Blue')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Split_S_S_Top_-_Blue.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Blue</span></div></div>
-        </div>
-      </div>
-
-      <!-- MM6 x TIMBERLAND BOOT -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / MM6 / Timberland® Money 6.22" Premium Waterproof Boot</span><span class="group-collab">Collab</span></div><span class="group-count">2 angles</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Timberland__Money_6_22_Premium_Waterproof_Boot_-_Full.webp','Money Boot — Full')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Timberland__Money_6_22_Premium_Waterproof_Boot_-_Full.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Money Print</span> <span class="angle">Full</span></div></div>
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__MM6_Maison_Margiela_Timberland__Money_6_22_Premium_Waterproof_Boot_-_Side.webp','Money Boot — Side')"><img src="images/SS26/Supreme__MM6_Maison_Margiela_Timberland__Money_6_22_Premium_Waterproof_Boot_-_Side.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Money Print</span> <span class="angle">Side</span></div></div>
-        </div>
-      </div>
-
-      <!-- MINI MATERIALS JERSEY BARRIER -->
-      <div class="product-group" data-cat="accessories">
-        <div class="group-header"><span class="group-name">Supreme® / Mini Materials 1:12 Scale Jersey Barrier</span><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Mini_Materials_1-12_Scale_Jersey_Barrier.webp','Mini Materials Jersey Barrier')"><img src="images/SS26/Supreme__Mini_Materials_1-12_Scale_Jersey_Barrier.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Concrete</span></div></div>
-        </div>
-      </div>
-
-      <!-- MINOLTA CAMCORDER -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / Minolta MN4K300WP Waterproof Camcorder</span><span class="group-collab">Collab</span></div><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__Minolta_MN4K300WP_Waterproof_Camcorder.webp','Minolta Camcorder')"><img src="images/SS26/Supreme__Minolta_MN4K300WP_Waterproof_Camcorder.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Pink Camo / Woodland Camo</span></div></div>
-        </div>
-      </div>
-
-      <!-- MOPHIE POWERSTATION -->
-      <div class="product-group" data-cat="accessories collab">
-        <div class="group-header"><div><span class="group-name">Supreme® / mophie® Qi2 Powerstation</span><span class="group-collab">Collab</span></div><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item"><div class="img-wrap" onclick="openLightbox('images/SS26/Supreme__mophie__Qi2_Powerstation_-_Black__Back_.webp','mophie Qi2 Powerstation — Black')"><img src="images/SS26/Supreme__mophie__Qi2_Powerstation_-_Black__Back_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Black</span></div></div>
-        </div>
-      </div>
-
-      <!-- BOX LOGO SKATEBOARDS -->
-      <div class="product-group" data-cat="skate">
-        <div class="group-header"><span class="group-name">Box Logo Skateboards (Set of 12)</span><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Box_Logo_Skateboards__Set_of_12_.webp','Box Logo Skateboards Set of 12')"><img src="images/SS26/Box_Logo_Skateboards__Set_of_12_.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Red / White</span></div></div>
-        </div>
-      </div>
-
-      <!-- FLAG SKATEBOARD -->
-      <div class="product-group" data-cat="skate">
-        <div class="group-header"><span class="group-name">Flag Skateboard</span><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Flag_Skateboard.webp','Flag Skateboard')"><img src="images/SS26/Flag_Skateboard.webp" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Stars &amp; Stripes</span></div></div>
-        </div>
-      </div>
-
-      <!-- FAUX FUR PILLOW -->
-      <div class="product-group" data-cat="accessories">
-        <div class="group-header"><span class="group-name">Faux Fur Pillow</span><span class="group-count">1 image</span></div>
-        <div class="img-row">
-          <div class="img-item wide"><div class="img-wrap" onclick="openLightbox('images/SS26/Faux_Fur_Pillow.jpg','Faux Fur Pillow')"><img src="images/SS26/Faux_Fur_Pillow.jpg" alt="" onerror="this.parentNode.classList.add('placeholder');this.style.display='none'"></div><div class="img-caption"><span class="color">Multicolor</span></div></div>
-        </div>
-      </div>
-
     </div>
 
     <!-- ══════════════════════════════════════
@@ -678,32 +452,30 @@
     ══════════════════════════════════════ -->
     <div class="view" id="view-counterfeit-archive">
       <div class="archive-header">
-        <div class="archive-title-block">
-          <div class="season-tag">All Seasons</div>
+        <div class="archive-header-left">
+          <div class="archive-season-tag">Enforcement</div>
           <div class="archive-title">Counterfeit Archive</div>
-          <div class="archive-sub">Flagged listing images · AI agent training data</div>
+          <div class="archive-sub">Flagged listing images · AI agent training reference</div>
         </div>
-        <div class="topbar-actions">
-          <button class="btn primary" onclick="document.getElementById('cf-upload-input').click()">+ Add image</button>
-          <input type="file" id="cf-upload-input" accept="image/*" multiple style="display:none" onchange="handleCFUpload(this)">
+        <div class="archive-header-right">
+          <span class="archive-count" id="cf-count">0</span>
+          flagged
         </div>
       </div>
 
-      <div class="archive-filters">
+      <div class="cf-filters">
         <button class="af active" onclick="filterCF('All', this)">All</button>
         <button class="af" onclick="filterCF('Amazon', this)">Amazon</button>
         <button class="af" onclick="filterCF('eBay', this)">eBay</button>
         <button class="af" onclick="filterCF('SHEIN', this)">SHEIN</button>
         <button class="af" onclick="filterCF('DHgate', this)">DHgate</button>
         <button class="af" onclick="filterCF('Alibaba', this)">Alibaba</button>
-        <button class="af" onclick="filterCF('Depop', this)">Depop</button>
-        <button class="af" onclick="filterCF('Poshmark', this)">Poshmark</button>
       </div>
 
-      <div id="cf-content">
+      <div id="cf-grid">
         <div class="archive-empty">
           <div class="archive-empty-title">No counterfeit images archived yet</div>
-          Images are added here when you archive a flagged listing or upload directly.
+          Images are added here when you archive a flagged listing, or upload directly using the button above.
         </div>
       </div>
     </div>
@@ -739,8 +511,9 @@
 </div>
 
 <script>
-  let log = [], currentResult = null, activeFilter = 'All', settings = { autoReact: false };
-  let activeListingId = null, sidebarOpen = true, cfItems = [], cfFilter = 'All';
+  let log = [], currentResult = null, activeFilter = 'All';
+  let settings = { autoReact: false }, activeListingId = null, sidebarOpen = true;
+  let cfItems = [], cfFilter = 'All';
 
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 
@@ -755,6 +528,8 @@
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     const tabsBar = document.getElementById('tabs-bar');
     const exportBtn = document.getElementById('export-btn');
+    tabsBar.style.display = 'none';
+    exportBtn.style.display = 'none';
 
     if (view === 'listings') {
       document.getElementById('view-listings').classList.add('active');
@@ -764,16 +539,12 @@
       exportBtn.style.display = '';
       document.getElementById('topbar-title').textContent = 'Listings';
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('tab-listings').classList.add('active');
+      document.querySelector('.tab').classList.add('active');
     } else if (view === 'product-archive') {
       document.getElementById('view-product-archive').classList.add('active');
-      tabsBar.style.display = 'none';
-      exportBtn.style.display = 'none';
       document.getElementById('topbar-title').textContent = 'Product Archive';
     } else if (view === 'counterfeit-archive') {
       document.getElementById('view-counterfeit-archive').classList.add('active');
-      tabsBar.style.display = 'none';
-      exportBtn.style.display = 'none';
       document.getElementById('topbar-title').textContent = 'Counterfeit Archive';
       renderCFGrid();
     }
@@ -788,21 +559,7 @@
     document.getElementById('panel-identifier').classList.toggle('active', name === 'identifier');
   }
 
-  // ── Archive filters ──
-  function filterArchive(cat, el) {
-    document.querySelectorAll('.archive-filters .af').forEach(f => f.classList.remove('active'));
-    el.classList.add('active');
-    const groups = document.querySelectorAll('#view-product-archive .product-group');
-    let visible = 0;
-    groups.forEach(g => {
-      const cats = g.dataset.cat || '';
-      if (cat === 'all' || cats.includes(cat)) { g.classList.remove('hidden'); visible++; }
-      else g.classList.add('hidden');
-    });
-    document.getElementById('archive-group-count').textContent = visible;
-  }
-
-  // ── Identifier tab ──
+  // ── Identifier tab logic ──
   function updateIdentifierTab() {
     const fp = document.getElementById('c-fakeproduct').checked;
     const others = ['c-quality','c-price','c-collab','c-highqty','c-parody','c-nameDrop','c-highRep'].some(id => document.getElementById(id).checked);
@@ -854,7 +611,7 @@
     } else if (score >= 4) {
       if (settings.autoReact && confidence === 'High') {
         status = 'Sent to React';
-        noteText = 'Counterfeit confirmed (auto-sent via High confidence setting). Signals: ' + reasons.join('; ') + '.';
+        noteText = 'Counterfeit confirmed (auto-sent). Signals: ' + reasons.join('; ') + '.';
       } else {
         status = 'Pending Review';
         noteText = 'Counterfeit indicators detected. Signals: ' + reasons.join('; ') + '. Review and send to React if confirmed.';
@@ -923,8 +680,8 @@
         '<div class="id-meta-item"><div class="id-meta-label">Confidence</div><div class="id-meta-val"><span class="badge ' + item.confidence.toLowerCase() + '">' + item.confidence + '</span></div></div>' +
       '</div>' +
       '<div class="compare-grid">' +
-        '<div class="img-card"><div class="img-card-header"><div class="img-card-title">Authentic product</div><div class="img-card-sub">Repository · SS26</div></div>' +
-        '<div class="img-area">Image appears here once matched from Product Archive</div>' +
+        '<div class="img-card"><div class="img-card-header"><div class="img-card-title">Authentic product</div><div class="img-card-sub">Product Archive · SS26</div></div>' +
+        '<div class="img-area">Image appears once archive is populated</div>' +
         '<div class="flag-strip">' +
           '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">Source</div><div class="flag-val">Verified product archive</div></div>' +
           (item.msrp > 0 ? '<div class="flag"><div class="flag-dot green"></div><div class="flag-lbl">MSRP</div><div class="flag-val">$' + item.msrp.toFixed(2) + '</div></div>' : '') +
@@ -933,10 +690,9 @@
         '<div class="img-area">Upload or link suspect listing image</div>' +
         '<div class="flag-strip">' +
           (item.signals.quality ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Quality</div><div><div class="flag-val">Poor quality detected</div><div class="flag-note bad">Logo, font, or colorway issues</div></div></div>' : '') +
-          (item.signals.fakeProduct ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Product type</div><div><div class="flag-val">Never made by Supreme</div></div></div>' : '') +
+          (item.signals.fakeProduct ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Product type</div><div class="flag-val">Never made by Supreme</div></div>' : '') +
           (priceDiff ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Price</div><div><div class="flag-val">$' + item.price.toFixed(2) + '</div><div class="flag-note bad">' + priceDiff + '</div></div></div>' : '') +
           (item.signals.collab ? '<div class="flag"><div class="flag-dot red"></div><div class="flag-lbl">Collaboration</div><div class="flag-val">Unofficial collab claimed</div></div>' : '') +
-          (!item.signals.quality && !item.signals.fakeProduct && !priceDiff && !item.signals.collab ? '<div class="flag"><div class="flag-dot amber"></div><div class="flag-lbl">Signals</div><div class="flag-val">Review signals in Listings tab</div></div>' : '') +
         '</div></div>' +
       '</div>' +
       '<div class="section-label" style="margin-top:1rem;">Verdict</div>' +
@@ -945,12 +701,11 @@
           '<button class="verdict-btn active-no" onclick="setVerdict(this,\'no\')">No match — counterfeit</button>' +
           '<button class="verdict-btn" onclick="setVerdict(this,\'inc\')">Inconclusive</button>' +
           '<button class="verdict-btn" onclick="setVerdict(this,\'yes\')">Match — authentic</button>' +
-        '</div>' +
-      '</div>' +
+        '</div></div>' +
       '<div class="btn-row">' +
         '<button class="btn primary" onclick="updateStatus(' + item.id + ',\'Sent to React\')">Send to React</button>' +
         '<button class="btn" onclick="updateStatus(' + item.id + ',\'Review Complete\')">Mark complete</button>' +
-        '<button class="btn" onclick="switchTab(\'listings\',document.getElementById(\'tab-listings\'))">Back to listings</button>' +
+        '<button class="btn" onclick="navigate(\'listings\')">Back to listings</button>' +
       '</div>';
   }
 
@@ -1013,7 +768,7 @@
       const cc = l.confidence.toLowerCase();
       const linkHtml = l.link !== '—' ? '<a href="' + l.link + '" target="_blank">' + l.platform + ' ↗</a>' : '—';
       return '<div class="table-row' + (l.selected ? ' selected' : '') + '">' +
-        '<div class="td center"><input type="checkbox" class="row-cb" ' + (l.selected ? 'checked' : '') + ' onchange="toggleSelect(' + l.id + ',this.checked)"></div>' +
+        '<div class="td center"><input type="checkbox" class="row-cb" ' + (l.selected ? 'checked' : '') + ' onchange="toggleSelect(' + l.id + ', this.checked)"></div>' +
         '<div class="td muted">' + l.date + '</div>' +
         '<div class="td">' + l.seller + '<br><span style="font-size:10px;color:var(--text-secondary)">' + l.platform + '</span></div>' +
         '<div class="td">' + linkHtml + (l.product !== '—' ? '<br><span style="font-size:11px;color:var(--text-secondary)">' + l.product + '</span>' : '') + '</div>' +
@@ -1025,8 +780,7 @@
           (l.status === 'Pending Review' ? '<button class="btn sm" onclick="updateStatus(' + l.id + ',\'Review Complete\')">Mark Complete</button>' : '') +
           (l.status === 'Review Complete' ? '<button class="btn sm" onclick="updateStatus(' + l.id + ',\'Pending Review\')">Reopen</button>' : '') +
           (l.identifierEnabled ? '<button class="btn sm" onclick="openIdentifier(' + l.id + ')">Identify ↗</button>' : '<button class="btn sm" style="opacity:0.35;cursor:not-allowed" disabled>Identify</button>') +
-        '</div></div>' +
-      '</div>';
+        '</div></div></div>';
     }).join('');
   }
 
@@ -1050,39 +804,45 @@
     const rows = [['Date','Seller','Platform','Link','Product','Status','Confidence','Notes']];
     log.forEach(l => rows.push([l.date, l.seller, l.platform, l.link, l.product, l.status, l.confidence, '"' + l.note.replace(/"/g,'""') + '"']));
     const csv = rows.map(r => r.join(',')).join('\n');
-    const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'brand_protection_log.csv'; a.click();
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = 'brand_protection_log.csv';
+    a.click();
+  }
+
+  // ── Archive filters ──
+  function filterArchive(cat, el) {
+    document.querySelectorAll('.archive-filters .af').forEach(f => f.classList.remove('active'));
+    el.classList.add('active');
+    let visible = 0;
+    document.querySelectorAll('#product-archive-content .product-group').forEach(g => {
+      const cats = g.dataset.cat || '';
+      const show = cat === 'all' || cats.includes(cat);
+      g.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    document.getElementById('pa-count').textContent = visible;
   }
 
   // ── Counterfeit Archive ──
-  function handleCFUpload(input) {
-    const files = Array.from(input.files);
-    if (!files.length) return;
-    const platform = prompt('Platform this image is from (e.g. eBay, SHEIN):') || 'Unknown';
-    const seller = prompt('Seller name (optional):') || '—';
-    files.forEach(f => {
-      cfItems.push({ id: Date.now() + Math.random(), imgUrl: URL.createObjectURL(f), platform, seller, date: new Date().toISOString().split('T')[0] });
-    });
-    renderCFGrid();
-    input.value = '';
-  }
-
   function filterCF(platform, el) {
     cfFilter = platform;
-    document.querySelectorAll('#view-counterfeit-archive .af').forEach(f => f.classList.remove('active'));
+    document.querySelectorAll('.cf-filters .af').forEach(f => f.classList.remove('active'));
     el.classList.add('active');
     renderCFGrid();
   }
 
   function renderCFGrid() {
-    const el = document.getElementById('cf-content');
+    const el = document.getElementById('cf-grid');
     const filtered = cfFilter === 'All' ? cfItems : cfItems.filter(i => i.platform === cfFilter);
+    document.getElementById('cf-count').textContent = cfItems.length;
     if (!filtered.length) {
-      el.innerHTML = '<div class="archive-empty"><div class="archive-empty-title">No counterfeit images archived yet</div>Images are added here when you archive a flagged listing or upload directly.</div>';
+      el.innerHTML = '<div class="archive-empty"><div class="archive-empty-title">No counterfeit images archived yet</div>Images are added here when you archive a flagged listing, or upload directly.</div>';
       return;
     }
     el.innerHTML = '<div class="cf-grid">' + filtered.map(i =>
       '<div class="cf-card">' +
-        '<div class="cf-img"><img src="' + i.imgUrl + '" style="width:100%;height:100%;object-fit:cover;"></div>' +
+        '<div class="cf-img">' + (i.imgUrl ? '<img src="' + i.imgUrl + '">' : 'No image') + '</div>' +
         '<div class="cf-info"><div class="cf-seller">' + i.seller + '</div><div class="cf-meta">' + i.platform + ' · ' + i.date + '</div><span class="cf-tag">Flagged</span></div>' +
       '</div>'
     ).join('') + '</div>';
